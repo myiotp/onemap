@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onemap.dao.FarmMachineryGPSDao">
+	<!-- <cache type="com.onemap.mybatis.caches.ehcache.EhcacheCache">
+		
+	</cache> 
+	<cache type="com.onemap.mybatis.caches.ehcache.LoggingEhcache"/>-->
+	
+	<resultMap type="FarmMachineryGPS" id="FarmMachineryGPSRs">
+		<result column="id" property="id" />
+		<result column="machineryNumber" property="machineryNumber" />
+		<result column="gpsdevice" property="gpsdevice" />		
+		<result column="enginenumber" property="enginenumber" />
+		<result column="driverlicense" property="driverlicense" />
+		<result column="licensenumber" property="licensenumber" />		
+		<result column="operationTime" property="operationTime" />
+		<result column="positionX" property="positionX" />
+		<result column="positionY" property="positionY" />
+		
+		<result column="cooperativeId" property="cooperativeId" />
+		<!-- 
+		 <association property="cooperative" javaType="Site">
+			<result property="id" column="cooperativeId"/>
+			<result property="cooperativeNumber" column="cooperativeNumber"/>
+		 </association>	
+		  -->
+	</resultMap>
+	
+	<sql id="fieldsForInsert">
+		machineryNumber,gpsdevice,enginenumber,driverlicense,licensenumber, operationTime,positionX,positionY
+	</sql>
+	<sql id="fields">
+		id,<include refid="fieldsForInsert" />,cooperativeId
+	</sql>
+	<sql id="tablename">
+		FarmMachineryGPS
+	</sql>
+	<select id="list" resultMap="FarmMachineryGPSRs" parameterType="FarmMachineryGPS">
+		select
+		<include refid="fields" />
+       from <include refid="tablename" /> 
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="gpsdevice != null">
+				and gpsdevice = #{gpsdevice}
+			</if>
+			<if test="operationTime != null">
+				and Date(operationTime) = Date(#{operationTime})
+			</if>
+			<if test="machineryNumber != null">
+				and machineryNumber = #{machineryNumber}
+			</if>
+			<if test="enginenumber != null">
+				and enginenumber = #{enginenumber}
+			</if>
+			<if test="driverlicense != null">
+				and driverlicense = #{driverlicense}
+			</if>
+			<if test="licensenumber != null">
+				and licensenumber = #{licensenumber}
+			</if>
+		</trim>
+	</select>
+	<select id="listBefore1W" resultMap="FarmMachineryGPSRs" parameterType="FarmMachineryGPS">
+		select
+		<include refid="fields" />
+       from <include refid="tablename" /> 
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="gpsdevice != null">
+				and gpsdevice = #{gpsdevice}
+			</if>
+			<if test="true">
+				<![CDATA[and DATE(DATE_SUB(NOW(), INTERVAL 1 WEEK)) <= DATE(operationTime)]]>
+			</if>
+			<if test="machineryNumber != null">
+				and machineryNumber = #{machineryNumber}
+			</if>
+			<if test="enginenumber != null">
+				and enginenumber = #{enginenumber}
+			</if>
+			<if test="driverlicense != null">
+				and driverlicense = #{driverlicense}
+			</if>
+			<if test="licensenumber != null">
+				and licensenumber = #{licensenumber}
+			</if>
+		</trim>
+	</select>
+	<select id="listBefore1M" resultMap="FarmMachineryGPSRs" parameterType="FarmMachineryGPS">
+		select
+		<include refid="fields" />
+       from <include refid="tablename" /> 
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="gpsdevice != null">
+				and gpsdevice = #{gpsdevice}
+			</if>
+			<if test="true">
+				<![CDATA[and DATE(DATE_SUB(NOW(), INTERVAL 1 MONTH)) <= DATE(operationTime)]]>
+			</if>
+			<if test="machineryNumber != null">
+				and machineryNumber = #{machineryNumber}
+			</if>
+			<if test="enginenumber != null">
+				and enginenumber = #{enginenumber}
+			</if>
+			<if test="driverlicense != null">
+				and driverlicense = #{driverlicense}
+			</if>
+			<if test="licensenumber != null">
+				and licensenumber = #{licensenumber}
+			</if>
+		</trim>
+	</select>
+	<select id="listBefore6M" resultMap="FarmMachineryGPSRs" parameterType="FarmMachineryGPS">
+		select
+		<include refid="fields" />
+       from <include refid="tablename" /> 
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="gpsdevice != null">
+				and gpsdevice = #{gpsdevice}
+			</if>
+			<if test="true">
+				<![CDATA[and DATE(DATE_SUB(NOW(), INTERVAL 6 MONTH)) <= DATE(operationTime)]]>
+			</if>
+			<if test="machineryNumber != null">
+				and machineryNumber = #{machineryNumber}
+			</if>
+			<if test="enginenumber != null">
+				and enginenumber = #{enginenumber}
+			</if>
+			<if test="driverlicense != null">
+				and driverlicense = #{driverlicense}
+			</if>
+			<if test="licensenumber != null">
+				and licensenumber = #{licensenumber}
+			</if>
+		</trim>
+	</select>
+	<select id="listByRecent" resultMap="FarmMachineryGPSRs" parameterType="FarmMachineryGPS">
+		select <include refid="fields" />
+       from farmmachinerygps  
+
+		<trim prefix="WHERE " prefixOverrides="and |or">
+		    <if test ="false">
+		    	and id in (select  max(id) FROM farmmachinerygps group by licensenumber order by operationTime desc) 
+		    </if>
+		    <if test ="true">
+		    	and (positionX >0 and positionY > 0) 
+		    </if>
+			<if test="gpsdevice != null">
+				and gpsdevice = #{gpsdevice}
+			</if>
+			<if test="operationTime != null">
+				and Date(operationTime) = Date(#{operationTime})
+			</if>
+			<if test="machineryNumber != null">
+				and machineryNumber = #{machineryNumber}
+			</if>
+			<if test="enginenumber != null">
+				and enginenumber = #{enginenumber}
+			</if>
+			<if test="driverlicense != null">
+				and driverlicense = #{driverlicense}
+			</if>
+			<if test="licensenumber != null">
+				and licensenumber = #{licensenumber}
+			</if>
+		</trim>
+		 limit 0 , 2000
+	</select>
+	<select id="listByLimit" resultMap="FarmMachineryGPSRs" parameterType="FarmMachineryGPS">
+		select
+		<include refid="fields" />
+       from <include refid="tablename" /> 
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="gpsdevice != null">
+				and gpsdevice = #{gpsdevice}
+			</if>
+			<if test="operationTime != null">
+				and Date(operationTime) = Date(#{operationTime})
+			</if>
+			<if test="machineryNumber != null">
+				and machineryNumber = #{machineryNumber}
+			</if>
+			<if test="enginenumber != null">
+				and enginenumber = #{enginenumber}
+			</if>
+			<if test="driverlicense != null">
+				and driverlicense = #{driverlicense}
+			</if>
+			<if test="licensenumber != null">
+				and licensenumber = #{licensenumber}
+			</if>
+		</trim>
+		order by id asc limit #{startPos} ,#{pageSize} 
+	</select>
+	<select id="count" resultType="Integer" parameterType="FarmMachineryGPS">
+		select
+		count(*)
+		from
+		<include refid="tablename" />
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="cooperativeId != null">
+				and FarmMachineryGPS.cooperativeId = #{cooperativeId}
+			</if>
+			<if test="operationTime != null">
+				and Date(FarmMachineryGPS.operationTime) = Date(#{operationTime})
+			</if>
+		</trim>
+	</select>
+	<insert id="save" parameterType="FarmMachineryGPS">
+		insert into
+		<include refid="tablename" />
+		(
+		<include refid="fieldsForInsert" />,cooperativeId
+		)
+		values(#{machineryNumber},#{machineryType},#{status},#{ownerName},#{ownerTelephone},#{operationTime},#{cooperativeId})
+	</insert>
+	<select id="get" resultMap="FarmMachineryGPSRs" parameterType="Integer">
+		select
+		<include refid="fields" />, cooperativeId
+		from
+		<include refid="tablename" />
+		where id=${id}
+	</select>
+	<update id="update" parameterType="FarmMachineryGPS">
+		update
+		<include refid="tablename" />
+		set
+		machineryNumber=#{machineryNumber},machineryType=#{machineryType},status=#{status},ownerName=#{ownerName},cooperativeId=#{cooperativeId},ownerTelephone=#{ownerTelephone},operationTime=#{operationTime}
+		where id=#{id}
+	</update>
+	<delete id="delete" parameterType="FarmMachineryGPS">
+		delete from
+		<include refid="tablename" />
+		where id=#{id}
+	</delete>
+	
+</mapper>

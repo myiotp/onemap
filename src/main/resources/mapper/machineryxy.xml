@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onemap.dao.MachineryXYDao">
+	
+	<resultMap type="MachineryXY" id="MachineryXYRs">
+		<result column="id" property="id" />
+		<result column="positionX" property="positionX" />
+		<result column="positionY" property="positionY" />
+		<result column="machineryOperationId" property="machineryOperationId" />
+		<result column="positionSequence" property="positionSequence" />	
+	</resultMap>
+	
+	<sql id="fields">
+		id,positionX,positionY,machineryOperationId,positionSequence
+	</sql>
+	<sql id="fieldsForInsert">
+		positionX,positionY,machineryOperationId,positionSequence
+	</sql>
+	<sql id="tablename">
+		MachineryXY
+	</sql>
+	<select id="list" resultMap="MachineryXYRs" parameterType="MachineryXY">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		<if test="machineryOperationId != null">
+			where machineryOperationId=#{machineryOperationId} 
+		</if> order by positionSequence asc
+	</select>
+	<select id="listByLimit" resultMap="MachineryXYRs" parameterType="MachineryXY">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" /> 
+		<if test="machineryOperationId != null">
+			where machineryOperationId=#{machineryOperationId} 
+		</if> order by positionSequence asc limit #{startPos} ,#{pageSize} 
+	</select>
+	<insert id="save" parameterType="MachineryXY">
+		insert into
+		<include refid="tablename" />
+		(
+		<include refid="fieldsForInsert" />
+		)
+		values(#{positionX},#{positionY},#{machineryOperationId},#{positionSequence})
+	</insert>
+	<select id="get" resultMap="MachineryXYRs" parameterType="Integer">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		where id=${id}
+	</select>
+	<select id="count" resultType="Integer">
+		select
+		count(*)
+		from
+		<include refid="tablename" />	
+	</select>
+	<!-- 
+	<select id="getCapacityById" resultMap="MachineryXYCapacityRs"
+		parameterType="Integer">
+		select sum(core_capacity) as core_capacity,
+		sum(related_capacity) as related_capacity,
+		sum(common_capacity) as
+		common_capacity,
+		sum(core_current_amount) as core_current_amount,
+		sum(related_current_amount) as related_current_amount,
+		sum(common_current_amount) as common_current_amount
+
+		from stm_area as t1
+		left join stm_region as t2 on t1.region_id=t2.id
+		left join stm_warehouse as t3 on t2.warehouse_id=t3.id
+
+		where t3.MachineryXY_id
+		=${id}
+	</select> -->
+	<update id="update" parameterType="MachineryXY">
+		update
+		<include refid="tablename" />
+		set
+		positionX=#{positionX},positionY=#{positionY},machineryOperationId=#{machineryOperationId},positionSequence=#{positionSequence}
+		where id=#{id}
+	</update>
+	<delete id="delete" parameterType="MachineryXY">			
+		<if test="id != null">
+			delete from
+			<include refid="tablename" />	
+			where id=#{id}
+		</if>
+		<if test="machineryOperationId != null">
+			delete from
+			<include refid="tablename" />	
+			where machineryOperationId=#{machineryOperationId}
+		</if>
+	</delete>
+</mapper>

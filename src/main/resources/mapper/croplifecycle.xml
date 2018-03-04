@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onemap.dao.CropLifecycleDao">
+	
+	<resultMap type="CropLifecycle" id="CropLifecycleRs">
+		<result column="id" property="id" />
+		<result column="blockId" property="blockId" />
+		<result column="cropTypeId" property="cropTypeId" />
+		<result column="positionX" property="positionX" />
+		<result column="positionY" property="positionY" />
+		<result column="gatherTime" property="gatherTime" />
+		<result column="pressure" property="pressure" />
+		<result column="humidity" property="humidity" />
+		<result column="windDirection" property="windDirection" />
+		<result column="windSpeed" property="windSpeed" />
+		<result column="rainfall" property="rainfall" />
+		<result column="radiation" property="radiation" />
+		<result column="temperature" property="temperature" />
+		<result column="soilN" property="soilN" />
+		<result column="soilP" property="soilP" />
+		<result column="soilK" property="soilK" />
+		<result column="soilTemperature" property="soilTemperature" />
+		<result column="soilHumidity" property="soilHumidity" />
+		<result column="leafArea" property="leafArea" />
+		<result column="leafGreen" property="leafGreen" />
+		<result column="picture" property="picture" />
+		<result column="video" property="video" />	
+		
+		<result column="blockNumber" property="blockNumber" />
+		<result column="cropType" property="cropType" />
+		
+		<result column="queryBeginTime" property="queryBeginTime" />
+		<result column="queryEndTime" property="queryEndTime" />	
+		
+		<collection property="whereClause" ofType="Clause">
+			
+		</collection>		
+	</resultMap>
+	<!-- 
+	<resultMap type="CropLifecycle" id="CropLifecycleCapacityRs">
+		<result column="core_capacity" property="coreCapacity" />
+		<result column="related_capacity" property="relatedCapacity" />
+		<result column="common_capacity" property="commonCapacity" />
+		<result column="core_current_amount" property="coreCurrentAmount" />
+		<result column="related_current_amount" property="relatedCurrentAmount" />
+		<result column="common_current_amount" property="commonCurrentAmount" />
+	</resultMap> -->
+	
+	<sql id="fieldsForInsert">
+		blockId,positionX,positionY,gatherTime,pressure,humidity,windDirection,windSpeed,rainfall,radiation,
+		temperature,soilN,soilP,soilK,soilTemperature,soilHumidity,leafArea,leafGreen,picture,video
+	</sql>
+	<sql id="fields">
+		id,<include refid="fieldsForInsert" />
+	</sql>
+	<sql id="tablename">
+		croplifecycle
+	</sql>
+	<select id="list" resultMap="CropLifecycleRs" parameterType="CropLifecycle">
+		select CropLifecycle.id, CropLifecycle.cropTypeId as cropTypeId,
+		<include refid="fieldsForInsert" />, landblock.blockNumber as blockNumber, cropType.cropType as cropType
+		from CropLifecycle
+		left outer join cropType on CropLifecycle.cropTypeId=cropType.id 
+		left outer join landblock on CropLifecycle.blockId=landblock.id 
+		<trim prefix="where" prefixOverrides="and |or">
+
+			<if test="blockId != null">
+				CropLifecycle.blockId = #{blockId} 
+			</if>
+			<if test="cropTypeId != null">
+				and CropLifecycle.cropTypeId = #{cropTypeId}
+			</if>
+			<if test="queryBeginTime != null and queryEndTime != null">
+				and (date(gatherTime) between #{queryBeginTime} and #{queryEndTime})
+			</if>
+			<if test="id != null">
+				and CropLifecycle.id  = #{id}
+			</if>
+			
+		</trim>
+		order by gatherTime,CropLifecycle.id, CropLifecycle.blockId,CropLifecycle.cropTypeId desc
+	</select>
+	<select id="listByLimit" resultMap="CropLifecycleRs" parameterType="CropLifecycle">
+		select CropLifecycle.id, CropLifecycle.cropTypeId as cropTypeId,
+		<include refid="fieldsForInsert" />, landblock.blockNumber as blockNumber, cropType.cropType as cropType
+		from CropLifecycle
+		left outer join cropType on CropLifecycle.cropTypeId=cropType.id 
+		left outer join landblock on CropLifecycle.blockId=landblock.id 
+		<trim prefix="where" prefixOverrides="and |or">
+
+			<if test="blockId != null">
+				CropLifecycle.blockId = #{blockId} 
+			</if>
+			<if test="cropTypeId != null">
+				and CropLifecycle.cropTypeId  = #{cropTypeId}
+			</if>
+			<if test="queryBeginTime != null and queryEndTime != null">
+				and (date(gatherTime) between #{queryBeginTime} and #{queryEndTime})
+			</if>
+			<if test="id != null">
+				and CropLifecycle.id  = #{id}
+			</if>
+			<if test="whereClause != null">
+				<foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+	                ${clause.column} ${clause.operator} #{clause.value} 
+	            </foreach> 
+			</if>
+		</trim>
+		<if test="orderBy != null and order != null">
+			order by ${orderBy} ${order}
+		</if>
+		 limit #{startPos} ,#{pageSize}  
+	</select>
+	
+	<insert id="save" parameterType="CropLifecycle">
+		insert into
+		<include refid="tablename" />
+		(
+		blockId,cropTypeId,positionX,positionY,gatherTime,pressure,humidity,windDirection,windSpeed,rainfall,radiation,
+		temperature,soilN,soilP,soilK,soilTemperature,soilHumidity,leafArea,leafGreen,picture,video
+		)
+		values(#{blockId},#{cropTypeId},#{positionX},#{positionY},#{gatherTime},#{pressure},#{humidity},#{windDirection},#{windSpeed},#{rainfall},
+		#{radiation},#{temperature},#{soilN},#{soilP},#{soilK},#{soilTemperature},#{soilHumidity},#{leafArea},#{leafGreen},#{picture},#{video})
+	</insert>
+	<select id="get" resultMap="CropLifecycleRs" parameterType="Integer">
+		select
+		<include refid="fields" />, cropTypeId
+		from
+		<include refid="tablename" />
+		where id=${id}
+	</select>
+	
+	<select id="count" resultType="Integer" parameterType="CropLifecycle">
+		select
+		count(*)
+		from CropLifecycle
+		left outer join cropType on CropLifecycle.cropTypeId=cropType.id 
+		left outer join landblock on CropLifecycle.blockId=landblock.id 
+		<trim prefix="where" prefixOverrides="and |or">
+
+			<if test="blockId != null">
+				CropLifecycle.blockId = #{blockId} 
+			</if>
+			<if test="cropTypeId != null">
+				and CropLifecycle.cropTypeId  = #{cropTypeId}
+			</if>
+			<if test="queryBeginTime != null and queryEndTime != null">
+				and (date(gatherTime) between #{queryBeginTime} and #{queryEndTime})
+			</if>
+			<if test="id != null">
+				and CropLifecycle.id  = #{id}
+			</if>
+			<if test="whereClause != null">
+				<foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+	                ${clause.column} ${clause.operator} #{clause.value} 
+	            </foreach> 
+			</if>
+		</trim>
+	</select>
+	
+	<update id="update" parameterType="CropLifecycle">
+		update
+		<include refid="tablename" />
+		set
+		blockId=#{blockId},cropTypeId=#{cropTypeId},positionX=#{positionX},positionY=#{positionY},gatherTime=#{gatherTime},
+		pressure=#{pressure},humidity=#{humidity},windDirection=#{windDirection},windSpeed=#{windSpeed},
+		rainfall=#{rainfall},radiation=#{radiation},temperature=#{temperature},soilN=#{soilN},
+		soilP=#{soilP},soilK=#{soilK},soilTemperature=#{soilTemperature},soilHumidity=#{soilHumidity},leafArea=#{leafArea},leafGreen=#{leafGreen},
+		picture=#{picture},video=#{video}
+		where id=#{id}
+	</update>
+	<delete id="delete" parameterType="CropLifecycle">
+		delete from
+		<include refid="tablename" />
+		where id=#{id}
+	</delete>
+</mapper>

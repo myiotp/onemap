@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onemap.dao.PurchaseSeedTypeDao">
+	
+	<resultMap type="PurchaseSeedType" id="PurchaseSeedTypeRs">
+		<result column="id" property="id" />
+		<result column="seedType" property="seedType" />
+		<result column="seedTypeId" property="seedTypeId" />
+		<result column="name" property="name" />
+		<result column="serialNumber" property="serialNumber" />
+		<result column="level" property="level" />
+		<result column="producer" property="producer" />
+		<result column="producerTel" property="producerTel" />
+		<result column="seller" property="seller" />
+		<result column="sellerTel" property="sellerTel" />
+		<result column="brief" property="brief" />
+		<result column="purchaseTime" property="purchaseTime" />
+		<result column="purchaseAmount" property="purchaseAmount" />
+		<result column="purchaser" property="purchaser" />
+		<result column="cooperativeId" property="cooperativeId" />
+			
+		<result column="typename" property="typename" />
+		<result column="totalamount" property="totalamount" />
+		
+		<result column="queryBeginTime" property="queryBeginTime" />
+		<result column="queryEndTime" property="queryEndTime" />
+		
+		<association property="cooperative" javaType="Site">
+			<result property="id" column="cooperativeId"/>
+			<result property="cooperativeNumber" column="cooperativeNumber"/>
+		 </association>
+		 
+		 <collection property="whereClause" ofType="Clause">			
+		 </collection>
+	</resultMap>
+	
+	<sql id="fields">
+		id,<include refid="fieldsForInsert" />
+	</sql>
+	<sql id="fieldsForInsert">
+		name,serialNumber,level,producer,producerTel,seller,sellerTel,brief,purchaseTime,purchaseAmount,purchaser,cooperativeId
+	</sql>
+	<sql id="tablename">
+		purchaseseedType
+	</sql>
+	<select id="list" resultMap="PurchaseSeedTypeRs" parameterType="PurchaseSeedType">
+		select purchaseseedType.id as id, SeedType.seedType as seedType, purchaseseedType.seedTypeId as seedTypeId,
+		cooperative.cooperativeNumber as cooperativeNumber,
+		<include refid="fieldsForInsert" />		
+		from
+		<include refid="tablename" />
+		left outer join SeedType on purchaseseedType.seedTypeId=SeedType.id 
+		left outer join cooperative on purchaseseedType.cooperativeId = cooperative.id 
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="cooperativeId != null">
+				purchaseseedType.cooperativeId = #{cooperativeId} 
+			</if>
+			<if test="seedTypeId != null">
+				and purchaseseedType.seedTypeId = #{seedTypeId}
+			</if>
+			<if test="queryBeginTime != null and queryEndTime != null">
+				and (date(purchaseTime) between #{queryBeginTime} and #{queryEndTime})
+			</if>
+		</trim>
+	</select>
+	<select id="listByLimit" resultMap="PurchaseSeedTypeRs" parameterType="PurchaseSeedType">
+		select purchaseseedType.id as id, SeedType.seedType as seedType,purchaseseedType.seedTypeId as seedTypeId,
+		cooperative.cooperativeNumber as cooperativeNumber,
+		<include refid="fieldsForInsert" />		
+		from
+		<include refid="tablename" />
+		left outer join SeedType on purchaseseedType.seedTypeId=SeedType.id 
+		left outer join cooperative on purchaseseedType.cooperativeId = cooperative.id 
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="cooperativeId != null">
+				purchaseseedType.cooperativeId = #{cooperativeId} 
+			</if>
+			<if test="seedTypeId != null">
+				and purchaseseedType.seedTypeId = #{seedTypeId}
+			</if>
+			<if test="whereClause != null">
+				<foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+	                ${clause.column} ${clause.operator} #{clause.value} 
+	            </foreach> 
+			</if>
+		</trim>
+		<if test="orderBy != null and order != null">
+			order by ${orderBy} ${order}
+		</if>
+		 limit #{startPos} ,#{pageSize}  
+	</select>
+	<insert id="save" parameterType="PurchaseSeedType">
+		insert into
+		<include refid="tablename" />
+		(
+		seedTypeId,<include refid="fieldsForInsert" />
+		) 
+		values(#{seedTypeId},#{name},#{serialNumber},#{level},#{producer},#{producerTel},#{seller},#{sellerTel},
+		#{brief},#{purchaseTime},#{purchaseAmount},#{purchaser},#{cooperativeId})
+	</insert>
+	<select id="get" resultMap="PurchaseSeedTypeRs" parameterType="Integer">
+		select
+		<include refid="fields" />,seedTypeId
+		from
+		<include refid="tablename" />
+		where id=${id}
+	</select>
+	<select id="count" resultType="Integer">
+		select
+		count(*)
+		from
+		<include refid="tablename" />
+		left outer join SeedType on purchaseseedType.seedTypeId=SeedType.id 
+		left outer join cooperative on purchaseseedType.cooperativeId = cooperative.id 
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="cooperativeId != null">
+				purchaseseedType.cooperativeId = #{cooperativeId} 
+			</if>
+			<if test="seedTypeId != null">
+				and purchaseseedType.seedTypeId = #{seedTypeId}
+			</if>
+			<if test="whereClause != null">
+				<foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+	                ${clause.column} ${clause.operator} #{clause.value} 
+	            </foreach> 
+			</if>
+		</trim>
+	</select>
+	
+	<update id="update" parameterType="PurchaseSeedType">
+		update
+		<include refid="tablename" />
+		set
+		seedTypeId=#{seedTypeId},name=#{name},serialNumber=#{serialNumber},level=#{level},producer=#{producer},
+		producerTel=#{producerTel},seller=#{seller},sellerTel=#{sellerTel},brief=#{brief},purchaseTime=#{purchaseTime},
+		purchaseAmount=#{purchaseAmount},purchaser=#{purchaser},cooperativeId=#{cooperativeId}
+		where id=#{id}
+	</update>
+	<delete id="delete" parameterType="PurchaseSeedType">
+		delete from
+		<include refid="tablename" />
+		where id=#{id}
+	</delete>
+	<select id="tongji" resultMap="PurchaseSeedTypeRs" parameterType="PurchaseSeedType">
+		select seedtype.seedType as typename, t1.totalamount from (select seedTypeId as typeId, SUM(purchaseAmount) as totalamount from purchaseseedtype 
+		<if test="cooperativeId != null">
+		     WHERE cooperativeId=#{cooperativeId} 
+		</if>
+		<if test="queryBeginTime != null and queryEndTime != null">
+			and (date(purchaseTime) between #{queryBeginTime} and #{queryEndTime})
+		</if>
+		GROUP BY seedTypeId) as t1 LEFT OUTER JOIN seedtype ON t1.typeId=seedtype.id
+	</select>
+	
+</mapper>

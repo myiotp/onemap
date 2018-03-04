@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onemap.dao.IdentityAuthDao">
+	
+	<resultMap type="IdentityAuth" id="identityAuthRs">
+		<result column="id" property="id" />
+		<result column="username" property="username" />
+		<result column="authresult" property="authresult" />
+		<result column="comment" property="comment" />
+		<result column="type" property="type" />
+       
+		<collection property="whereClause" ofType="Clause">			
+		</collection>
+	</resultMap>
+	<sql id="fieldsForInsert">
+		username,authresult,comment,type
+	</sql>
+	<sql id="fields">
+		id,
+		<include refid="fieldsForInsert" />
+	</sql>
+	<sql id="tablename">
+		identityauth
+	</sql>
+	<select id="getByUsername" resultMap="identityAuthRs">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		where username=#{username} order by id desc
+	</select>
+	<select id="getByUsernameAndType" resultMap="identityAuthRs">
+        select
+        <include refid="fields" />
+        from
+        <include refid="tablename" />
+        where username=#{username} and type=#{type} order by id desc
+    </select>
+	<select id="list" resultMap="identityAuthRs">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="whereClause != null">
+				<foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+	                ${clause.column} ${clause.operator} #{clause.value} 
+	            </foreach> 
+			</if>
+		</trim>
+		<if test="orderBy != null and order != null">
+			order by ${orderBy} ${order}
+		</if>
+	</select>
+	<select id="listByLimit" resultMap="identityAuthRs" parameterType="IdentityAuth">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" /> 
+		<trim prefix="where" prefixOverrides="and |or">			
+			<if test="whereClause != null">
+				<foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+	                ${clause.column} ${clause.operator} #{clause.value} 
+	            </foreach> 
+			</if>
+			and username != 'admin'
+		</trim>
+		<if test="orderBy != null and order != null">
+			order by ${orderBy} ${order}
+		</if>
+		 limit #{startPos} ,#{pageSize}
+	</select>
+	<insert id="save" parameterType="IdentityAuth">
+		insert into
+		<include refid="tablename" />
+		(
+		<include refid="fieldsForInsert" />
+		)
+		values(#{username},#{authresult},#{comment},#{type})
+	</insert>
+	<select id="get" resultMap="identityAuthRs" parameterType="Integer">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		where id=${id}
+	</select>
+	<select id="count" resultType="Integer">
+		select
+		count(*)
+		from
+		<include refid="tablename" />	
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="whereClause != null">
+				<foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+	                ${clause.column} ${clause.operator} #{clause.value} 
+	            </foreach> 
+			</if>
+			and username != 'admin'
+		</trim>
+		
+	</select>
+	<update id="update" parameterType="IdentityAuth">
+		update
+		<include refid="tablename" />
+		set
+		username=#{username},authresult=#{authresult}, comment=#{comment}, type=#{type}
+		where id=#{id}
+	</update>
+	<delete id="delete" parameterType="IdentityAuth">
+		delete from
+		<include refid="tablename" />
+		where id=#{id}
+	</delete>
+</mapper>

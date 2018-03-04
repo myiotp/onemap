@@ -1,0 +1,41 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>智慧物流平台系统</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="refresh" content="200;url=view2">
+
+	 <link rel="stylesheet" href="../jquery-ui-1.11.1.custom/jquery-ui.min.css"> 
+<link rel="stylesheet" href="../openlayers/theme/default/style.css" type="text/css">
+<link rel="stylesheet" href="../openlayers/style.css" type="text/css">
+<link href="../css/global.css" rel="stylesheet" type="text/css" />
+<link href="../css/manage.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../jquery-1.10.2/jquery.js"></script>
+<script src="../jquery-ui-1.11.1.custom/jquery-ui.min.js" type="text/javascript"></script>
+<script src="../bootstrap-3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../openlayers/OpenLayers.js"></script>
+<script type="text/javascript" src="../js/ahover.js"></script>
+<script type="text/javascript" src="../js/mapconfig.js"></script>
+<script type="text/javascript" src="../js/map.js"></script>
+</head>
+<body onload='openMap()'>
+	
+	<c:import url="../common/top.jsp">
+	<c:param name="memuid" value="0"></c:param></c:import>
+	<span class="blank18"></span>
+	<div class="page">
+		
+		<!-- 列表内容 begin -->
+		<!--  主体   start -->
+			<div id="map" class="bigmap"></div>
+	</div>	
+	<c:import url="../common/footer.jsp"></c:import>	
+
+</body>
+</html>

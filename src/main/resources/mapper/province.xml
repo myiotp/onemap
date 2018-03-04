@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onemap.dao.ProvinceDao">
+	<!-- <cache type="com.onemap.mybatis.caches.memcached.MemcachedCache" /> 
+	<cache type="com.onemap.mybatis.caches.ehcache.EhcacheCache">		
+	</cache> -->
+	<resultMap type="Province" id="ProvinceRs">
+		<result column="province_id" property="province_id" />
+		<result column="province_name" property="province_name" />
+		<result column="province_simple" property="province_simple" />
+		<result column="parent" property="parent" />
+		<result column="lng" property="lng" />
+		<result column="lat" property="lat" />
+		<result column="seqno" property="seqno" />
+	</resultMap>
+	
+	<sql id="fields">
+		seqno,province_id,province_name,province_simple,parent,lng,lat
+	</sql>
+	<sql id="tablename">
+		province
+	</sql>
+	
+	<select id="list" resultMap="ProvinceRs">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		<trim prefix="where" prefixOverrides="and |or">
+
+			<if test="province_id != null">
+				province_id = #{province_id} 
+			</if>
+			<if test="province_simple != null">
+				and province_simple  = #{province_simple}
+			</if>
+			<if test="province_name != null">
+				and province_name  = #{province_name}
+			</if>
+			<if test="parent != null">
+				and parent  = #{parent}
+			</if>
+		</trim>
+		order by province_id asc 
+	</select>
+	<select id="listByLimit" resultMap="ProvinceRs" parameterType="Province">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" /> 
+		<trim prefix="where" prefixOverrides="and |or">
+
+			<if test="province_id != null">
+				province_id = #{province_id} 
+			</if>
+			<if test="province_simple != null">
+				and province_simple  = #{province_simple}
+			</if>
+			<if test="province_name != null">
+				and province_name  = #{province_name}
+			</if>
+			<if test="parent != null">
+				and parent  = #{parent}
+			</if>
+		</trim>
+		 order by province_id asc limit #{startPos} ,#{pageSize} 
+	</select>
+	<insert id="save" parameterType="Province">
+		insert into
+		<include refid="tablename" />
+		(
+		province_id,province_name,province_simple,parent
+		)
+		values(#{province_id},#{province_name},#{province_simple},#{parent})
+	</insert>
+	<select id="get" resultMap="ProvinceRs" parameterType="Integer">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		<trim prefix="where" prefixOverrides="and |or">
+
+			<if test="province_id != null">
+				province_id = #{province_id} 
+			</if>
+			<if test="province_simple != null">
+				and province_simple  = #{province_simple}
+			</if>
+			<if test="seqno != null">
+				and seqno  = #{seqno}
+			</if>
+			<if test="parent != null">
+				and parent  = #{parent}
+			</if>
+		</trim>
+		
+	</select>
+	<select id="count" resultType="Integer">
+		select
+		count(*)
+		from
+		<include refid="tablename" />	
+	</select>
+	<update id="update" parameterType="Province">
+		update
+		<include refid="tablename" />
+		set
+		province_id=#{province_id},province_simple=#{province_simple}, province_name=#{province_name},parent=#{parent}
+		where seqno=#{seqno}
+	</update>
+	<update id="updateLngLat" parameterType="Province">
+        update
+        <include refid="tablename" />
+        set
+        lng=#{lng},lat=#{lat}
+        where seqno=#{seqno}
+    </update>
+	<delete id="delete" parameterType="Province">
+		delete from
+		<include refid="tablename" />
+		where province_id=#{province_id}
+	</delete>
+</mapper>

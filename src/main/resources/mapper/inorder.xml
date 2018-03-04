@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onemap.dao.InOrderDao">
+	<resultMap type="InOrder" id="inOrderRs">
+		<result column="id" property="id" />
+		<result column="number" property="number" />
+		<result column="date" property="date" />
+	</resultMap>
+	<sql id="fields">
+		id,
+		<include refid="fieldsForInsert" />
+	</sql>
+	<sql id="fieldsForInsert">
+		number,date
+	</sql>
+	<sql id="searchCondition">
+		<if test="id != null">
+			and id=#{id}
+		</if>
+		<if test="number != null">
+			and number like '%#{number}%'
+		</if>
+		<if test="date != null">
+			and date = #{date}
+		</if>
+	</sql>
+	<sql id="tablename">
+		stm_inorder
+	</sql>
+	<select id="list" resultMap="inOrderRs">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		<trim prefix="where" prefixOverrides="and">
+			<include refid="searchCondition" />
+		</trim>
+	</select>
+	<insert id="save" parameterType="InOrder" >
+	 <selectKey resultType="Integer" keyProperty="id">  
+  SELECT LAST_INSERT_ID()  
+  </selectKey>  
+		insert into
+		<include refid="tablename" />
+		(
+		<include refid="fieldsForInsert" />
+		)
+		values(#{number},#{date})
+	</insert>
+	<select id="get" resultMap="inOrderRs" parameterType="Integer">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		where id=${id}
+	</select>
+	<update id="update" parameterType="InOrder">
+		update
+		<include refid="tablename" />
+		set
+		number=#{number},date=#{date}
+		where id=#{id}
+	</update>
+	<delete id="delete" parameterType="InOrder">
+		delete from
+		<include refid="tablename" />
+		where id=#{id}
+	</delete>
+	<select id="count" parameterType="InOrder" resultType="Integer">
+		select count(*) from
+		<include refid="tablename" />
+		<trim prefix="where" prefixOverrides="and">
+			<include refid="searchCondition" />
+		</trim>
+	</select>
+</mapper>

@@ -1,0 +1,287 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>作物生长状态回溯图表</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	 <link rel="stylesheet" href="../jquery-ui-1.11.1.custom/jquery-ui.min.css"> 
+<link href="../css/global.css" rel="stylesheet" type="text/css" />
+<link href="../css/manage.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../jquery-1.10.2/jquery.js"></script>
+<script src="../jquery-ui-1.11.1.custom/jquery-ui.min.js" type="text/javascript"></script>
+<script src="../bootstrap-3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="../js/ahover.js"></script>
+	
+<style type="text/css">
+${
+demo
+.css
+}
+</style>
+	<script type="text/javascript">
+	var block = '<%=request.getParameter("blockId")%>';	
+	var crop = '<%=request.getParameter("cropTypeId")%>';
+	var url = encodeURI('./block/' + block + '/crop/' + crop + '/charts/csv');
+	
+	// Get the CSV and create the chart
+	$
+			.getJSON(
+					url,
+					function(responsedata) {
+						var jsonData =  eval('(' + responsedata + ')'); 
+						console.log(jsonData);
+						var dataStrArr=jsonData.time;//分割成字符串数组
+						 var dataIntArr=[];//保存转换后的整型字符串
+						 $.each( dataStrArr, function( index, data ) {
+						 //dataStrArr.forEach(function(data,index,arr){  
+							 //var innerArr = [];
+							 var match = data
+								.match(/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/);
+							if (match) {
+								//console.log(match);
+								 dataIntArr.push(Date.UTC(+(match[3]),match[1] - 1,+match[2]));
+								//innerArr.push(jsonData.humidity[index]);
+								//innerArr.push(jsonData.pressure[index]);
+								//innerArr.push(jsonData.rainfall[index]);
+								//innerArr.push(jsonData.temp[index]);
+							}							
+							//dataIntArr.push(innerArr);     
+						    });
+				console.log(dataIntArr);		
+		        $('#container').highcharts({
+		            chart: {
+		                zoomType: 'xy'
+		            },
+		            title: {
+		                text: '作物生长状态回溯'
+		            },
+		            subtitle: {
+		                text: '展示农作物从种植到收割的全过程数据'
+		            },
+		            xAxis: {
+		                type: 'datetime',
+						categories: jsonData.time,
+		                labels: {
+		                    overflow: 'justify'
+		                }
+		            },
+		            yAxis: [{ // Primary yAxis
+						labels: {
+							format: '{value}°C',
+							style: {
+								color: Highcharts.getOptions().colors[0]
+							}
+						},
+						title: {
+							text: '温度',
+							style: {
+								color: Highcharts.getOptions().colors[0]
+							}
+						},
+						opposite: true
+
+					}, { // 2 yAxis
+						labels: {
+							format: '{value}',
+							style: {
+								color: Highcharts.getOptions().colors[1]
+							}
+						},
+						title: {
+							text: '湿度',
+							style: {
+								color: Highcharts.getOptions().colors[1]
+							}
+						},
+						opposite: true
+
+					/* }, { // 3 yAxis
+						gridLineWidth: 0,
+						title: {
+							text: '降雨量',
+							style: {
+								color: Highcharts.getOptions().colors[2]
+							}
+						},
+						labels: {
+							format: '{value} mm',
+							style: {
+								color: Highcharts.getOptions().colors[2]
+							}
+						} */
+
+					}, { // 4 yAxis
+						gridLineWidth: 0,
+						title: {
+							text: '气压',
+							style: {
+								color: Highcharts.getOptions().colors[3]
+							}
+						},
+						labels: {
+							format: '{value} mb',
+							style: {
+								color: Highcharts.getOptions().colors[3]
+							}
+						},
+						opposite: true
+					}, { // 5 yAxis
+						gridLineWidth: 0,
+						title: {
+							text: '风速',
+							style: {
+								color: Highcharts.getOptions().colors[4]
+							}
+						},
+						labels: {
+							format: '{value}',
+							style: {
+								color: Highcharts.getOptions().colors[4]
+							}
+						},
+						opposite: true
+					}, { // 6 yAxis
+						gridLineWidth: 0,
+						title: {
+							text: '土壤温度',
+							style: {
+								color: Highcharts.getOptions().colors[5]
+							}
+						},
+						labels: {
+							format: '{value}°C',
+							style: {
+								color: Highcharts.getOptions().colors[5]
+							}
+						},
+						opposite: true
+					}, { // 7 yAxis
+						gridLineWidth: 0,
+						title: {
+							text: '土壤湿度',
+							style: {
+								color: Highcharts.getOptions().colors[6]
+							}
+						},
+						labels: {
+							format: '{value}',
+							style: {
+								color: Highcharts.getOptions().colors[6]
+							}
+						},
+						opposite: true
+					}],
+					tooltip: {
+						shared: true
+					},
+					legend: {
+						layout: 'vertical',
+						align: 'left',
+						x: 120,
+						verticalAlign: 'top',
+						y: 80,
+						floating: true,
+						backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+					},
+					series: [/* {
+						name: '降雨量',
+						type: 'column',
+						yAxis: 2,
+						data: jsonData.rainfall,
+						tooltip: {
+							valueSuffix: ' mm'
+						}
+
+					}, */ {
+						name: '气压',
+						type: 'column',
+						yAxis: 2,
+						data: jsonData.pressure,
+						marker: {
+							enabled: false
+						},
+						//dashStyle: 'shortdot',
+						tooltip: {
+							valueSuffix: ' mb'
+						}
+
+					}, {
+						name: '温度',
+						type: 'spline',
+						yAxis: 0,
+						data: jsonData.temp,
+						tooltip: {
+							valueSuffix: ' °C'
+						}
+					}, {
+						name: '湿度',
+						type: 'spline',
+						yAxis: 1,
+						data: jsonData.humidity,
+						tooltip: {
+							valueSuffix: ' '
+						}
+					}, {
+						name: '风速',
+						type: 'spline',
+						yAxis: 3,
+						data: jsonData.windSpeed,
+						tooltip: {
+							valueSuffix: ' '
+						}
+
+					}, {
+						name: '土壤温度',
+						type: 'spline',
+						yAxis: 4,
+						data: jsonData.soilTemp,
+						tooltip: {
+							valueSuffix: ' °C'
+						}
+
+					},{
+						name: '土壤湿度',
+						type: 'spline',
+						yAxis: 5,
+						data: jsonData.soilHumidity,
+						tooltip: {
+							valueSuffix: ' '
+						}
+
+					} ]
+		        });
+		    });
+
+		</script>
+</head>
+<body>
+	<c:import url="../common/top.jsp">
+		<c:param name="memuid" value="2"></c:param>
+	</c:import>
+	<span class="blank18"></span>
+	<div class="page">
+		<c:import url="../common/left.jsp">
+			<c:param name="memuid" value="2"></c:param>
+		</c:import>
+		<!-- 列表内容 begin -->
+		<div style="width:1200px;">
+			<c:choose>
+				<c:when test="${!empty resultList}">
+					<div id="container" style="min-width: 310px; height: 400px; width:800px;margin: 0 auto"></div>
+				</c:when>
+				<c:otherwise>暂无作物生长状态回溯记录！</c:otherwise>
+			</c:choose>
+			
+	    </div>
+		<script src="../charts/js/highcharts.js"></script>
+		<script src="../charts/js/modules/data.js"></script>
+	<!-- <script src="../charts/js/modules/exporting.js"></script> -->	
+	</div>
+	<c:import url="../common/footer.jsp"></c:import>
+</body>
+</html>

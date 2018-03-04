@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onemap.dao.UserVehicleDao">
+	
+	<resultMap type="UserVehicle" id="userVehicleRs">
+		<result column="id" property="id" />
+		<result column="username" property="username" />
+		<result column="licenseplate" property="licenseplate" />
+		<result column="enginenumber" property="enginenumber" />
+		
+		<result column="from_area_name" property="fromAreaName" />
+        <result column="from_city_name" property="fromCityName" />
+        <result column="from_province_name" property="fromProvinceName" />
+        <result column="from_address" property="fromAddress" /> 
+        <result column="fromid" property="fromid" />   
+        <result column="fromlng" property="fromlng" />   
+        <result column="fromlat" property="fromlat" />   
+        <result column="fromname" property="fromname" />   
+        
+		<result column="registrationaddress" property="registrationaddress" />
+		<result column="vehicletype" property="vehicletype" />
+		<result column="vehiclebrand" property="vehiclebrand" />
+		<result column="vehicleweight" property="vehicleweight" />
+		<result column="vehicledimension" property="vehicledimension" />
+		<result column="cargolength" property="cargolength" />
+		<result column="checkdeadline" property="checkdeadline" />
+		<result column="insurancedeadline" property="insurancedeadline" />
+		<result column="certimage" property="certimage" />
+		<result column="gpsx" property="gpsx" />
+		<result column="gpsy" property="gpsy" />
+		<result column="authresult" property="authresult" />
+        <result column="comment" property="comment" />
+	
+		<collection property="whereClause" ofType="Clause">
+		</collection>
+	</resultMap>
+	
+	<sql id="fieldsForInsert">
+		username,licenseplate,enginenumber,registrationaddress,vehicletype,vehiclebrand,vehicleweight,cargolength,checkdeadline,insurancedeadline,certimage,gpsx,gpsy,authresult,comment,
+		from_area_name,from_city_name,from_province_name,from_address,fromid,fromname,fromlng,fromlat,vehicledimension
+	</sql>
+	<sql id="fields">
+		id,
+		<include refid="fieldsForInsert" />
+	</sql>
+	<sql id="tablename">
+		uservehicle
+	</sql>
+	<select id="getByUsername" resultMap="userVehicleRs">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		where username=#{username} order by id desc
+	</select>
+	<select id="getByUsernameAndLicense" resultMap="userVehicleRs">
+        select
+        <include refid="fields" />
+        from
+        <include refid="tablename" />
+        where username=#{username} and licenseplate=#{licenseplate} order by id desc
+    </select>
+	<select id="list" resultMap="userVehicleRs">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="whereClause != null">
+				<foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+	                ${clause.column} ${clause.operator} #{clause.value} 
+	            </foreach> 
+			</if>
+		</trim>
+		<if test="orderBy != null and order != null">
+			order by ${orderBy} ${order}
+		</if>
+	</select>
+	<select id="listByLimit" resultMap="userVehicleRs" parameterType="UserVehicle">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" /> 
+		<trim prefix="where" prefixOverrides="and |or">			
+			<if test="whereClause != null">
+				<foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+	                ${clause.column} ${clause.operator} #{clause.value} 
+	            </foreach> 
+			</if>
+			and username != 'admin'
+		</trim>
+		<if test="orderBy != null and order != null">
+			order by ${orderBy} ${order}
+		</if>
+		 limit #{startPos} ,#{pageSize}
+	</select>
+	<insert id="save" parameterType="UserVehicle">
+		insert into
+		<include refid="tablename" />
+		(
+		<include refid="fieldsForInsert" />
+		)
+		values(#{username},#{licenseplate},#{enginenumber},#{registrationaddress},#{vehicletype},#{vehiclebrand},#{vehicleweight},#{cargolength},#{checkdeadline},#{insurancedeadline},
+		#{certimage},#{gpsx},#{gpsy},#{authresult},#{comment},#{fromAreaName},#{fromCityName},#{fromProvinceName},#{fromAddress},#{fromid},#{fromname},#{fromlng},#{fromlat},#{vehicledimension})
+	</insert>
+	<select id="get" resultMap="userVehicleRs" parameterType="Integer">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		where id=${id}
+	</select>
+	<select id="count" resultType="Integer">
+		select
+		count(*)
+		from
+		<include refid="tablename" />	
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="whereClause != null">
+				<foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+	                ${clause.column} ${clause.operator} #{clause.value} 
+	            </foreach> 
+			</if>
+			and username != 'admin'
+		</trim>
+		
+	</select>
+	<update id="update" parameterType="UserVehicle">
+		update
+		<include refid="tablename" />
+		set
+		username=#{username},licenseplate=#{licenseplate}, enginenumber=#{enginenumber},registrationaddress=#{registrationaddress}, vehicletype=#{vehicletype},
+		vehiclebrand=#{vehiclebrand},vehicleweight=#{vehicleweight},
+		cargolength=#{cargolength}, checkdeadline=#{checkdeadline},insurancedeadline=#{insurancedeadline}, certimage=#{certimage},
+		gpsx=#{gpsx}, gpsy=#{gpsy},authresult=#{authresult}, comment=#{comment},
+		from_area_name=#{fromAreaName},from_city_name=#{fromCityName},from_province_name=#{fromProvinceName},from_address=#{fromAddress},
+		fromid=#{fromid},fromname=#{fromname},fromlng=#{fromlng},fromlat=#{fromlat},vehicledimension=#{vehicledimension}
+		where id=#{id}
+	</update>
+	<delete id="delete" parameterType="UserVehicle">
+		delete from
+		<include refid="tablename" />
+		where id=#{id}
+	</delete>
+</mapper>

@@ -1,0 +1,53 @@
+﻿/*新增样式-20150730*/
+.y_wlcslm .y_3j_ul{
+	display:block;
+	width:1009px;
+	height:auto;
+}
+.y_wlcslm .y_3j_ul li{
+	display:block;
+	width:327px;
+	height:auto;
+	padding-right:9px;
+	float:left;
+	margin-top:10px
+}
+.y_wlcslm .y_3j_ul li a{
+	display:block;
+	width:325px;
+	height:auto;
+	border:1px solid #46a2ef;
+	float:left;
+}
+.y_wlcslm .y_3j_ul li a img{
+	display:block;
+	width:325px;
+	height:auto;
+	margin:0px auto;
+}
+.y_wlcslm .y_3j_ul li a span{
+	display:block;
+	width:325px;
+	height:53px;
+	line-height:53px;
+	color:#fff;
+	background:#46a2ef;
+	font-size:25px;
+	font-weight:bold;
+	font-family:"微软雅黑";
+	letter-spacing:15px;
+	text-align:center;
+}
+
+.y_wlcslm .y_3j_ul li a:hover{
+	display:block;
+	width:325px;
+	height:auto;
+	border:1px solid #ff7c00;
+	float:left;
+}
+.y_wlcslm .y_3j_ul li a:hover span{
+	background:#ff7c00;
+	color:#fff;
+	letter-spacing:15px;
+}

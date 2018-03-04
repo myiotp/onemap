@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onemap.dao.BlockXYDao">
+	
+	<resultMap type="BlockXY" id="BlockXYRs">
+		<result column="id" property="id" />
+		<result column="positionX" property="positionX" />
+		<result column="positionY" property="positionY" />
+		<result column="blockId" property="blockId" />
+		<result column="positionSequence" property="positionSequence" />	
+	</resultMap>
+	<!-- 
+	<resultMap type="BlockXY" id="BlockXYCapacityRs">
+		<result column="core_capacity" property="coreCapacity" />
+		<result column="related_capacity" property="relatedCapacity" />
+		<result column="common_capacity" property="commonCapacity" />
+		<result column="core_current_amount" property="coreCurrentAmount" />
+		<result column="related_current_amount" property="relatedCurrentAmount" />
+		<result column="common_current_amount" property="commonCurrentAmount" />
+	</resultMap> -->
+	<sql id="fields">
+		id,positionX,positionY,blockId,positionSequence
+	</sql>
+	<sql id="fieldsForInsert">
+		positionX,positionY,blockId,positionSequence
+	</sql>
+	<sql id="tablename">
+		blockxy
+	</sql>
+	<select id="list" resultMap="BlockXYRs" parameterType="BlockXY">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		<if test="blockId != null">
+			where blockId=#{blockId} order by positionSequence asc
+		</if>
+	</select>
+	<select id="listByLimit" resultMap="BlockXYRs" parameterType="BlockXY">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />  order by id asc limit #{startPos} ,#{pageSize} 
+	</select>
+	<insert id="save" parameterType="BlockXY">
+		insert into
+		<include refid="tablename" />
+		(
+		<include refid="fieldsForInsert" />
+		)
+		values(#{positionX},#{positionY},#{blockId},#{positionSequence})
+	</insert>
+	<select id="get" resultMap="BlockXYRs" parameterType="Integer">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		where id=${id}
+	</select>
+	<select id="count" resultType="Integer">
+		select
+		count(*)
+		from
+		<include refid="tablename" />	
+	</select>
+	<!-- 
+	<select id="getCapacityById" resultMap="BlockXYCapacityRs"
+		parameterType="Integer">
+		select sum(core_capacity) as core_capacity,
+		sum(related_capacity) as related_capacity,
+		sum(common_capacity) as
+		common_capacity,
+		sum(core_current_amount) as core_current_amount,
+		sum(related_current_amount) as related_current_amount,
+		sum(common_current_amount) as common_current_amount
+
+		from stm_area as t1
+		left join stm_region as t2 on t1.region_id=t2.id
+		left join stm_warehouse as t3 on t2.warehouse_id=t3.id
+
+		where t3.BlockXY_id
+		=${id}
+	</select> -->
+	<update id="update" parameterType="BlockXY">
+		update
+		<include refid="tablename" />
+		set
+		positionX=#{positionX},positionY=#{positionY},blockId=#{blockId},positionSequence=#{positionSequence}
+		where id=#{id}
+	</update>
+	<delete id="delete" parameterType="BlockXY">			
+		<if test="id != null">
+			delete from
+			<include refid="tablename" />	
+			where id=#{id}
+		</if>
+		<if test="blockId != null">
+			delete from
+			<include refid="tablename" />	
+			where blockId=#{blockId}
+		</if>
+	</delete>
+</mapper>

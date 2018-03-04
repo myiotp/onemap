@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onemap.dao.SiteDao">
+	<!-- <cache type="com.onemap.mybatis.caches.ehcache.EhcacheCache"/> -->		
+	
+	<resultMap type="Site" id="SiteRs">
+		<result column="id" property="id" />
+		<result column="cooperativeNumber" property="cooperativeNumber" />
+		<result column="cooperativeName" property="cooperativeName" />
+		<result column="owner" property="owner" />
+		<result column="telephone" property="telephone" />
+		<result column="memo" property="memo" />
+		<result column="character" property="character" />
+		<result column="address" property="address" />
+		<result column="size" property="size" />
+		<result column="gpsx" property="gpsx" />
+		<result column="gpsy" property="gpsy" />
+		<result column="website" property="website" />
+		<result column="legalperson" property="legalperson" />
+		<result column="email" property="email" />
+		<result column="qq" property="qq" />
+		<result column="wechat" property="wechat" />
+		<result column="description" property="description" />
+		<result column="qualification" property="qualification" />
+		<result column="collector" property="collector" />
+		<result column="collecttime" property="collecttime" />
+		<result column="province" property="province" />
+		<result column="city1" property="city1" />
+		<result column="city2" property="city2" />
+		<result column="zipcode" property="zipcode" />
+		
+		<collection property="whereClause" ofType="Clause">			
+		</collection>	
+	</resultMap>
+	<resultMap type="Site" id="siteCapacityRs">
+		<result column="core_capacity" property="coreCapacity" />
+		<result column="related_capacity" property="relatedCapacity" />
+		<result column="common_capacity" property="commonCapacity" />
+		<result column="core_current_amount" property="coreCurrentAmount" />
+		<result column="related_current_amount" property="relatedCurrentAmount" />
+		<result column="common_current_amount" property="commonCurrentAmount" />
+	</resultMap>
+	<sql id="fields">
+		id, <include refid="fieldsForInsert" />
+	</sql>
+	<sql id="fieldsForInsert">
+	cooperativeNumber,cooperativeName,owner,telephone,memo,`character`,size,address,gpsx,gpsy,website,legalperson,email,qq,wechat,description,qualification,collector,collecttime,province,city1,city2,zipcode
+	</sql>
+	<sql id="tablename">
+		cooperative
+	</sql>
+	<select id="list" resultMap="SiteRs">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		<trim prefix="where" prefixOverrides="and |or">
+
+			<if test="id != null">
+				id = #{id} 
+			</if>
+			<if test="zipcode != null">
+				and zipcode  = #{zipcode}
+			</if>
+			<if test="cooperativeNumber != null">
+				and cooperativeNumber  = #{cooperativeNumber}
+			</if>
+		</trim>
+	</select>
+	<select id="listByLimit" resultMap="SiteRs" parameterType="Site">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />  
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="whereClause != null">
+				<foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+	                ${clause.column} ${clause.operator} #{clause.value} 
+	            </foreach> 
+			</if>
+		</trim>
+		<if test="orderBy != null and order != null">
+			order by ${orderBy} ${order}
+		</if>
+		 limit #{startPos} ,#{pageSize}
+	</select>
+	<insert id="save" parameterType="Site">
+		insert into
+		<include refid="tablename" />
+		(
+		<include refid="fieldsForInsert" />
+		)
+		values(#{cooperativeNumber},#{cooperativeName},#{owner},#{telephone},#{memo},#{character},#{size},#{address},#{gpsx},#{gpsy},#{website},#{legalperson},#{email},#{qq},#{wechat},#{description},#{qualification},#{collector},#{collecttime},#{province},#{city1},#{city2},#{zipcode})
+	</insert>
+	<select id="get" resultMap="SiteRs" parameterType="Integer">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		where id=${id}
+	</select>
+	<select id="count" resultType="Integer">
+		select
+		count(*)
+		from
+		<include refid="tablename" />	
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="whereClause != null">
+				<foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+	                ${clause.column} ${clause.operator} #{clause.value} 
+	            </foreach> 
+			</if>
+		</trim>
+	</select>
+	<!-- 
+	<select id="getCapacityById" resultMap="siteCapacityRs"
+		parameterType="Integer">
+		select sum(core_capacity) as core_capacity,
+		sum(related_capacity) as related_capacity,
+		sum(common_capacity) as
+		common_capacity,
+		sum(core_current_amount) as core_current_amount,
+		sum(related_current_amount) as related_current_amount,
+		sum(common_current_amount) as common_current_amount
+
+		from stm_area as t1
+		left join stm_region as t2 on t1.region_id=t2.id
+		left join stm_warehouse as t3 on t2.warehouse_id=t3.id
+
+		where t3.site_id
+		=${id}
+	</select> -->
+	<update id="update" parameterType="Site">
+		update
+		<include refid="tablename" />
+		set
+		cooperativeNumber=#{cooperativeNumber},cooperativeName=#{cooperativeName},owner=#{owner},telephone=#{telephone},memo=#{memo},`character`=#{character},size=#{size},address=#{address},gpsx=#{gpsx},gpsy=#{gpsy},website=#{website},legalperson=#{legalperson},email=#{email},qq=#{qq},wechat=#{wechat},description=#{description},qualification=#{qualification},collector=#{collector},collecttime=#{collecttime},
+		province=#{province},city1=#{city1},city2=#{city2},zipcode=#{zipcode}
+		where id=#{id}
+	</update>
+	<delete id="delete" parameterType="Site">
+		delete from
+		<include refid="tablename" />
+		where id=#{id}
+	</delete>
+</mapper>

@@ -1,0 +1,147 @@
+@charset "utf-8";
+
+.mappop{
+	width:255px;
+	height:435px;
+	background-color: #FFF;
+	box-shadow:5px 5px 5px rgba(0,0,0,.6);
+}
+
+.nongjipop{
+	height:500px;
+}
+.attachimg{
+	width:255px;
+	height:125px;
+}
+.mappop .name{
+	position: absolute;
+	top:95px;
+	left:20px;
+	color:#fff;
+	font-size: 16px;
+	font-weight: bold;
+}
+.mappop .title {
+	border-top: 1px solid #8e8988;
+	border-bottom: 1px solid #eeeeee;
+	height: 25px;
+}
+
+.mappop .title div{
+	display:inline-block;
+	float: left;
+	width:85px;	
+	text-align: center;
+	background-color: #f7f8f8;
+	color: #00000;
+	line-height: 25px;
+}
+
+.mappop .title .small{
+	width:63px;	
+}
+
+.mappop .title div:hover{
+	background-color: #13ae67;
+	color: #f0faf6;
+}
+
+.mappop .title .select{
+	background-color: #13ae67;
+	color: #f0faf6;
+}
+.mappop .content{
+	padding-top: 10px;
+}
+.mappop .content div{
+	height: 25px;
+}
+
+.mappop .content .lable{
+	padding-left:20px;
+	color: #13ae67;
+	float: left;
+	line-height:25px;
+	display:inline;
+}
+
+.mappop .content .lable em{
+	color: red;
+	position: relative;
+  	left: -10px;
+}
+
+.mappop .content .lable span{
+	position: relative;
+  	left: -7px;
+}
+.mappop .content .value{
+	padding-right:20px;
+	text-align: right;
+	float: right;
+	line-height:25px;
+	display:inline;
+	color: #111111;
+}
+
+.mappop .content .line{
+	margin:5px 20px 5px 20px;
+	height: 1px;
+	background-color: #eeeeee;
+}
+
+.mappop .triangle{
+	position: absolute;
+	top:150px;
+	right:-30px;
+    width:0px;
+    height:0px;
+    border-width:10px 15px 10px 15px;
+    border-style:dashed dashed dashed solid;
+    border-color:transparent transparent transparent #ffffff;
+}
+
+.mappop .tab div{
+	width: 100%;
+	height:36px;
+	display:inline-block;
+	line-height:36px;
+	border-top: 1px solid #3e3a39;
+	text-align: center;
+}
+.mappop .tab div:hover{
+	border-top: 1px solid #3e3a39;
+	background-color: #13ae67;
+	color: #FFF;
+}
+
+.mappop .tab .select{
+	border-top: 1px solid #3e3a39;
+	background-color: #13ae67;
+	color: #FFF;
+}
+
+.mappop .tab{
+	position: absolute;
+	bottom:-5px;
+}
+
+.mappop .hiddenit{
+	display:none;
+}
+
+.mappop .smallheightautoScroll{
+	text-align: center;
+	width: 255px;
+    overflow: auto;
+    height: 280px;
+}
+.mappop .contents{
+	text-align: center;
+}
+.mappop .content img{
+	max-width:150px;
+	border: 2px solid  #ccc;
+	box-shadow:2px 2px 2px rgba(0,0,0,.4);
+}

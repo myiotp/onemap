@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onemap.dao.CityDao">
+	<!-- <cache type="com.onemap.mybatis.caches.memcached.MemcachedCache" /> 
+	<cache type="com.onemap.mybatis.caches.ehcache.EhcacheCache">		
+	</cache> -->
+	<resultMap type="City" id="CityRs">
+		<result column="id" property="id" />
+		<result column="parent" property="parent" />
+		<result column="text" property="text" />
+		<result column="seqno" property="seqno" />
+	</resultMap>
+	
+	<sql id="fields">
+		seqno,id,parent,text
+	</sql>
+	<sql id="tablename">
+		city
+	</sql>
+	
+	<select id="list" resultMap="CityRs">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		<trim prefix="where" prefixOverrides="and |or">
+
+			<if test="id != null">
+				id = #{id} 
+			</if>
+			<if test="parent != null">
+				and parent  = #{parent}
+			</if>
+			<if test="text != null">
+				and text  = #{text}
+			</if>
+		</trim>
+	</select>
+	<select id="listByLimit" resultMap="CityRs" parameterType="City">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" /> 
+		<trim prefix="where" prefixOverrides="and |or">
+
+			<if test="id != null">
+				id = #{id} 
+			</if>
+			<if test="parent != null">
+				and parent  = #{parent}
+			</if>
+			<if test="text != null">
+				and text  = #{text}
+			</if>
+		</trim>
+		 order by id asc limit #{startPos} ,#{pageSize} 
+	</select>
+	<insert id="save" parameterType="City">
+		insert into
+		<include refid="tablename" />
+		(
+		id,parent,text
+		)
+		values(#{id},#{parent},#{text})
+	</insert>
+	<select id="get" resultMap="CityRs" parameterType="Integer">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		where seqno=${seqno}
+	</select>
+	<select id="count" resultType="Integer">
+		select
+		count(*)
+		from
+		<include refid="tablename" />	
+	</select>
+	<update id="update" parameterType="City">
+		update
+		<include refid="tablename" />
+		set
+		id=#{id},parent=#{parent}, text=#{text}
+		where seqno=#{seqno}
+	</update>
+	<delete id="delete" parameterType="City">
+		delete from
+		<include refid="tablename" />
+		where id=#{id}
+	</delete>
+</mapper>

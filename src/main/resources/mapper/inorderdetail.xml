@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onemap.dao.InOrderDetailDao">
+	<resultMap type="InOrderDetail" id="inOrderDetailRs">
+		<result column="id" property="id" />
+		<result column="truckid" property="truckId" />
+		<result column="goodsId" property="goodsId" />
+		<result column="inorderid" property="inOrderId" />
+		<result column="amount" property="amount" />
+	</resultMap>
+	<sql id="fields">
+		id,
+		<include refid="fieldsForInsert" />
+	</sql>
+	<sql id="fieldsForInsert">
+		truckid,goodsId,inorderid,amount
+	</sql>
+	<sql id="searchCondition">
+		<if test="id != null">
+			and id=#{id}
+		</if>
+		<if test="inOrderId != null">
+			and inorderid =#{inOrderId}
+		</if>
+		<if test="goodsId != null">
+			and goodsId = #{goodsId}
+		</if>
+	</sql>
+	<sql id="tablename">
+		stm_inorderdetail
+	</sql>
+	<select id="list" resultMap="inOrderDetailRs">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		<trim prefix="where" prefixOverrides="and">
+			<include refid="searchCondition" />
+		</trim>
+	</select>
+	<insert id="save" parameterType="InOrderDetail">
+		insert into
+		<include refid="tablename" />
+		(
+		<include refid="fieldsForInsert" />
+		)
+		values(#{truckId},#{goodsId},#{inOrderId},${amount})
+	</insert>
+	<select id="get" resultMap="inOrderDetailRs" parameterType="Integer">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		where id=${id}
+	</select>
+	<update id="update" parameterType="InOrderDetail">
+		update
+		<include refid="tablename" />
+		set
+		truckid=#{truckId},goodisid=#{goodsId},inorderid=#{inOrderId},amount=${amount}
+		where id=#{id}
+	</update>
+	<delete id="delete" parameterType="InOrderDetail">
+		delete from
+		<include refid="tablename" />
+		where id=#{id}
+	</delete>
+	<select id="count" parameterType="InOrderDetail" resultType="Integer">
+		select count(*) from
+		<include refid="tablename" />
+		<trim prefix="where" prefixOverrides="and">
+			<include refid="searchCondition" />
+		</trim>
+	</select>
+</mapper>

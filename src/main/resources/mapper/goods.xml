@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onemap.dao.GoodsDao">
+	<resultMap type="Goods" id="goodsRs">
+		<result column="id" property="id" />
+		<result column="username" property="username" />
+		<result column="from_area_name" property="fromAreaName" />
+		<result column="from_city_name" property="fromCityName" />
+		<result column="from_province_name" property="fromProvinceName" />
+		<result column="from_address" property="fromAddress" />	
+		
+		<result column="fromid" property="fromid" />   
+		<result column="fromlng" property="fromlng" />   
+		<result column="fromlat" property="fromlat" />   
+        <result column="fromname" property="fromname" />   
+        <result column="toid" property="toid" />   
+        <result column="tolng" property="tolng" />   
+        <result column="tolat" property="tolat" /> 
+        <result column="toname" property="toname" />   
+        
+		<result column="to_area_name" property="toAreaName" />
+		<result column="to_city_name" property="toCityName" />
+		<result column="to_province_name" property="toProvinceName" />
+		<result column="to_address" property="toAddress" />
+		<result column="car_type" property="carType" />	
+		<result column="car_length" property="carLength" />
+		<result column="status" property="status" />
+		<result column="cargo_owner" property="cargoOwner" />
+		<result column="owner_cellphone" property="ownerCellphone" />
+		<result column="cargo_name" property="cargoName" />	
+		<result column="cargo_weight" property="cargoWeight" />
+		
+		<result column="cargotype" property="cargotype" />   
+		<result column="ownercompany" property="ownercompany" />   
+		<result column="operator" property="operator" />   
+		<result column="vehicledimension" property="vehicledimension" />   
+		<result column="ship_timestamp" property="shipTimestamp"/>
+		<result column="price" property="price" />
+		<result column="payment" property="payment" />
+		<result column="valid_days" property="validDays" />		
+		<result column="memo" property="memo" />
+		<result column="wechat" property="wechat" />
+		<result column="emergency_contact" property="emergencyContact" />
+		<result column="emergency_cellphone" property="emergencyCellphone" />
+		<result column="category" property="category" />	
+		<result column="mileage" property="mileage" />
+	</resultMap>
+	
+	<sql id="fieldsForInsert">
+		username,from_area_name,from_city_name,from_province_name,from_address,to_area_name,to_city_name,to_province_name,to_address,car_type,car_length,
+		status,cargo_owner,owner_cellphone,cargo_name,cargo_weight,ship_timestamp,price,payment,valid_days,memo,wechat,emergency_contact,emergency_cellphone,
+		category,mileage,fromid,fromname,toid,toname,fromlng,fromlat,tolng,tolat,vehicledimension,cargotype,ownercompany,operator
+	</sql>
+	<sql id="fields">
+        id,
+        <include refid="fieldsForInsert" />
+    </sql>
+	<sql id="tablename">
+		cargoes
+	</sql>
+	<select id="list" resultMap="goodsRs">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" /> order by id desc
+	</select>
+	<select id="listByLimit" resultMap="goodsRs" parameterType="Goods">
+        select
+        <include refid="fields" />
+        from
+        <include refid="tablename" />  
+        <trim prefix="where" prefixOverrides="and |or">
+            <if test="whereClause != null">
+                <foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+                    ${clause.column} ${clause.operator} #{clause.value} 
+                </foreach> 
+            </if>
+        </trim>
+        <if test="orderBy != null and order != null">
+            order by ${orderBy} ${order}
+        </if>
+         limit #{startPos} ,#{pageSize}
+    </select>
+	<select id="query" resultMap="goodsRs">
+        select
+        <include refid="fields" />
+        from
+        <include refid="tablename" /> 
+        <trim prefix="where" prefixOverrides="and |or">
+
+            <if test="shipTimestamp != null and shipTimestamp != null">
+                and (date(ship_timestamp)>=#{shipTimestamp})
+            </if>
+            <if test="fromid != null">
+                and fromid  like CONCAT(#{fromid}, '%')
+            </if>
+            <if test="toid != null">
+                and toid  like CONCAT(#{toid}, '%')
+            </if>
+            <if test="carType != null">
+                and car_type = #{carType}
+            </if>
+            <if test="carLength != null">
+                and car_length >= #{carLength}
+            </if>
+        </trim>
+         order by id desc limit #{startPos},#{pageSize}
+    </select>
+	<select id="getByUsername" resultMap="goodsRs">
+        select
+        <include refid="fields" />
+        from
+        <include refid="tablename" />
+        where username=#{username} order by id desc limit #{startPos} ,#{pageSize}
+    </select>
+    <select id="getByUsernameAndStatus" resultMap="goodsRs">
+        select
+        <include refid="fields" />
+        from
+        <include refid="tablename" />
+        where username=#{username} and status=#{status} order by id desc limit #{startPos} ,#{pageSize}
+    </select>
+    <select id="getByUsernameAndNonStatus" resultMap="goodsRs">
+        select
+        <include refid="fields" />
+        from
+        <include refid="tablename" />
+        where username=#{username} and status!=#{status} order by id desc limit #{startPos} ,#{pageSize}
+    </select>
+    <select id="countByUsername" resultType="Integer">
+        select count(*)  from
+        <include refid="tablename" />
+        where username=#{username}
+    </select>
+    <select id="countByUsernameAndStatus" resultType="Integer">
+        select count(*)  from
+        <include refid="tablename" />
+        where username=#{username} and status=#{status} 
+    </select>
+    <select id="count" resultType="Integer">
+        select
+        count(*)
+        from
+        <include refid="tablename" />   
+        <trim prefix="where" prefixOverrides="and |or">
+            <if test="whereClause != null">
+                <foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+                    ${clause.column} ${clause.operator} #{clause.value} 
+                </foreach> 
+            </if>
+        </trim>
+    </select>
+	<insert id="save" parameterType="Goods">
+		insert into
+		<include refid="tablename" />
+		(
+		<include refid="fieldsForInsert" />
+		)
+		values(#{username},#{fromAreaName},#{fromCityName},#{fromProvinceName},#{fromAddress},#{toAreaName},#{toCityName},#{toProvinceName},#{toAddress},
+		#{carType},#{carLength},#{status},#{cargoOwner},#{ownerCellphone},#{cargoName},#{cargoWeight},#{shipTimestamp},#{price},#{payment},
+		#{validDays},#{memo},#{wechat},#{emergencyContact},#{emergencyCellphone},#{category},#{mileage},#{fromid},#{fromname},#{toid},#{toname},
+		#{fromlng},#{fromlat},#{tolng},#{tolat},#{vehicledimension},#{cargotype},#{ownercompany},#{operator})
+	</insert>
+	<select id="get" resultMap="goodsRs" parameterType="Integer">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		where id=${id}
+	</select>
+	<update id="update" parameterType="Goods">
+		update
+		<include refid="tablename" />
+		set username=#{username},
+		from_area_name=#{fromAreaName},from_city_name=#{fromCityName},from_province_name=#{fromProvinceName},from_address=#{fromAddress},
+		to_area_name=#{toAreaName},to_city_name=#{toCityName},to_province_name=#{toProvinceName},to_address=#{toAddress},
+		car_type=#{carType},car_length=#{carLength},status=#{status},cargo_owner=#{cargoOwner},
+		owner_cellphone=#{ownerCellphone},cargo_name=#{cargoName},cargo_weight=#{cargoWeight},ship_timestamp=#{shipTimestamp},
+		price=#{price},payment=#{payment},valid_days=#{validDays},memo=#{memo},
+		wechat=#{wechat},emergency_contact=#{emergencyContact},emergency_cellphone=#{emergencyCellphone},category=#{category},mileage=#{mileage},
+		fromid=#{fromid},fromname=#{fromname},toid=#{toid},toname=#{toname},fromlng=#{fromlng},fromlat=#{fromlat},
+		tolng=#{tolng},tolat=#{tolat},vehicledimension=#{vehicledimension},cargotype=#{cargotype},ownercompany=#{ownercompany},operator=#{operator}
+		where id=#{id}
+	</update>
+	<update id="updateStatus" parameterType="Goods">
+        update
+        <include refid="tablename" />
+        set  status=#{status}
+        where id=#{id}
+    </update>
+	<delete id="delete" parameterType="Goods">
+		delete from 
+		<include refid="tablename" />		
+	where id=#{id}
+	</delete>
+</mapper>

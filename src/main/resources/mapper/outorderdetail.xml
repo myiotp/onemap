@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onemap.dao.OutOrderDetailDao">
+	<resultMap type="OutOrderDetail" id="outOrderDetailRs">
+		<result column="id" property="id" />
+		<result column="areaId" property="areaId" />
+		<result column="areaName" property="areaName" />
+		<result column="outOrderId" property="outOrderId" />
+		<result column="amount" property="amount" />
+	</resultMap>
+	<sql id="fields">
+		id,
+		<include refid="fieldsForInsert" />
+	</sql>
+	<sql id="fieldsForInsert">
+		areaId,areaName,outOrderId,amount
+	</sql>
+	<sql id="searchCondition">
+		<if test="id != null">
+			and id=#{id}
+		</if>
+		<if test="outOrderId != null">
+			and outOrderId =#{outOrderId}
+		</if>
+		<if test="areaId != null">
+			and areaId = #{areaId}
+		</if>
+	</sql>
+	<sql id="tablename">
+		stm_outorderdetail
+	</sql>
+	<select id="list" resultMap="outOrderDetailRs">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		<trim prefix="where" prefixOverrides="and">
+			<include refid="searchCondition" />
+		</trim>
+	</select>
+	<insert id="save" parameterType="OutOrderDetail">
+		insert into
+		<include refid="tablename" />
+		(
+		<include refid="fieldsForInsert" />
+		)
+		values(#{areaId},#{areaName},#{outOrderId},${amount})
+	</insert>
+	<select id="get" resultMap="outOrderDetailRs" parameterType="Integer">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		where id=${id}
+	</select>
+	<update id="update" parameterType="OutOrderDetail">
+		update
+		<include refid="tablename" />
+		set
+		areaId=#{areaId},areaName=#{areaName},outOrderId=#{outOrderId},amount=${amount}
+		where id=#{id}
+	</update>
+	<delete id="delete" parameterType="OutOrderDetail">
+		delete from
+		<include refid="tablename" />
+		where id=#{id}
+	</delete>
+	<select id="count" parameterType="OutOrderDetail" resultType="Integer">
+		select count(*) from
+		<include refid="tablename" />
+		<trim prefix="where" prefixOverrides="and">
+			<include refid="searchCondition" />
+		</trim>
+	</select>
+</mapper>

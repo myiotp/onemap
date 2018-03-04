@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Highcharts Example</title>
+
+		<script type="text/javascript" src="../../js/jquery.min.js"></script>
+		<style type="text/css">
+${demo.css}
+		</style>
+		<script type="text/javascript">
+$(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'scatter',
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'Height Versus Weight of 507 Individuals by Gender'
+        },
+        subtitle: {
+            text: 'Source: Heinz  2003'
+        },
+        xAxis: {
+            title: {
+                enabled: true,
+                text: 'Height (cm)'
+            },
+            startOnTick: true,
+            endOnTick: true,
+            showLastLabel: true
+        },
+        yAxis: {
+            title: {
+                text: 'Weight (kg)'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 100,
+            y: 70,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+            borderWidth: 1
+        },
+        plotOptions: {
+            scatter: {
+                marker: {
+                    radius: 5,
+                    states: {
+                        hover: {
+                            enabled: true,
+                            lineColor: 'rgb(100,100,100)'
+                        }
+                    }
+                },
+                states: {
+                    hover: {
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<b>{series.name}</b><br>',
+                    pointFormat: '{point.x} cm, {point.y} kg'
+                }
+            }
+        },
+        series: [{
+            name: 'Male',
+           // color: 'rgba(119, 152, 191, .5)',
+			marker: {
+                symbol: 'url(http://images.newsmth.net/nForum/img/hotpic/Age_14181415preview.jpg)', 
+                radius: 50
+            },
+            data: [
+				 [Date.UTC(1970,  9, 27), 0   ],
+                    [Date.UTC(1970, 10, 10), 0.6 ],
+                    [Date.UTC(1970, 10, 18), 0.7 ],
+                    [Date.UTC(1970, 11,  2), 0.8 ],
+                    [Date.UTC(1970, 11,  9), 0.6 ],
+                    [Date.UTC(1970, 11, 16), 0.6 ],
+                    [Date.UTC(1970, 11, 28), 0.67],
+                    [Date.UTC(1971,  0,  1), 0.81],
+                    [Date.UTC(1971,  0,  8), 0.78],
+                    [Date.UTC(1971,  0, 12), 0.98],
+                    [Date.UTC(1971,  0, 27), 1.84],
+                    [Date.UTC(1971,  1, 10), 1.80],
+                    [Date.UTC(1971,  1, 18), 1.80],
+                    [Date.UTC(1971,  1, 24), 1.92],
+                    [Date.UTC(1971,  2,  4), 2.49],
+                    [Date.UTC(1971,  2, 11), 2.79],
+                    [Date.UTC(1971,  2, 15), 2.73],
+                    [Date.UTC(1971,  2, 25), 2.61],
+                    [Date.UTC(1971,  3,  2), 2.76],
+                    [Date.UTC(1971,  3,  6), 2.82],
+                    [Date.UTC(1971,  3, 13), 2.8 ],
+                    [Date.UTC(1971,  4,  3), 2.1 ],
+                    [Date.UTC(1971,  4, 26), 1.1 ],
+                    [Date.UTC(1971,  5,  9), 0.25],
+                    [Date.UTC(1971,  5, 12), 0   ]
+			]
+        }]
+    });
+});
+    
+
+		</script>
+	</head>
+	<body>
+<script src="../../js/highcharts.js"></script>
+<script src="../../js/modules/exporting.js"></script>
+
+<div id="container" style="min-width: 310px; height: 400px; max-width: 800px; margin: 0 auto"></div>
+
+	</body>
+</html>

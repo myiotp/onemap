@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onemap.dao.UserDao">
+	
+	<resultMap type="User" id="userRs">
+		<result column="id" property="id" />
+		<result column="openid" property="openid" />
+		<result column="wx_nickName" property="wx_nickName" />
+		<result column="wx_avatarUrl" property="wx_avatarUrl" />
+		<result column="wx_gender" property="wx_gender" />
+		<result column="wx_city" property="wx_city" />
+		<result column="wx_province" property="wx_province" />
+		<result column="wx_country" property="wx_country" />
+		<result column="wx_unionid" property="wx_unionid" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="email" property="email" />
+		<result column="usertype" property="usertype" />
+		<result column="realname" property="realname" />
+        <result column="company" property="company" />
+        <result column="mobilephone" property="mobilephone" />
+        <result column="idcard" property="idcard" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        
+        <result column="address" property="address" />
+        <result column="emergency" property="emergency" />
+        <result column="emergencyphone" property="emergencyphone" />
+        
+        <result column="approverole" property="approverole" />
+		
+		<collection property="whereClause" ofType="Clause">			
+		</collection>
+	</resultMap>
+	<sql id="fieldsForInsert">
+		openid,wx_nickName,wx_avatarUrl,wx_gender,wx_city,wx_province,wx_country,wx_unionid,username,password,email,realname,company,mobilephone,idcard,province,city,address,emergency,emergencyphone,usertype,approverole
+	</sql>
+	<sql id="fields">
+		id,
+		<include refid="fieldsForInsert" />
+	</sql>
+	<sql id="tablename">
+		user
+	</sql>
+	<select id="getByUsername" resultMap="userRs">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		where username=#{username}
+	</select>
+	<select id="getByOpenid" resultMap="userRs">
+        select
+        <include refid="fields" />
+        from
+        <include refid="tablename" />
+        where openid=#{openid}
+    </select>
+	<select id="list" resultMap="userRs">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="whereClause != null">
+				<foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+	                ${clause.column} ${clause.operator} #{clause.value} 
+	            </foreach> 
+			</if>
+		</trim>
+		<if test="orderBy != null and order != null">
+			order by ${orderBy} ${order}
+		</if>
+	</select>
+	<select id="listByLimit" resultMap="userRs" parameterType="User">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" /> 
+		<trim prefix="where" prefixOverrides="and |or">			
+			<if test="whereClause != null">
+				<foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+	                ${clause.column} ${clause.operator} #{clause.value} 
+	            </foreach> 
+			</if>
+			and username != 'admin'
+		</trim>
+		<if test="orderBy != null and order != null">
+			order by ${orderBy} ${order}
+		</if>
+		 limit #{startPos} ,#{pageSize}
+	</select>
+	<insert id="save" parameterType="User">
+		insert into
+		<include refid="tablename" />
+		(
+		<include refid="fieldsForInsert" />
+		)
+		values(#{openid},#{wx_nickName},#{wx_avatarUrl},#{wx_gender},#{wx_city},#{wx_province},#{wx_country},#{wx_unionid},#{username},#{password},#{email},#{realname},#{company},#{mobilephone},#{idcard},#{province},#{city},#{address},#{emergency},#{emergencyphone},#{usertype},#{approverole})
+	</insert>
+	<select id="get" resultMap="userRs" parameterType="Integer">
+		select
+		<include refid="fields" />
+		from
+		<include refid="tablename" />
+		where id=${id}
+	</select>
+	<select id="count" resultType="Integer">
+		select
+		count(*)
+		from
+		<include refid="tablename" />	
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="whereClause != null">
+				<foreach item="clause" collection="whereClause" separator=" AND " open="(" close=")"> 
+	                ${clause.column} ${clause.operator} #{clause.value} 
+	            </foreach> 
+			</if>
+			and username != 'admin'
+		</trim>
+		
+	</select>
+	<update id="update" parameterType="User">
+		update
+		<include refid="tablename" />
+		set
+		username=#{username},password=#{password}, email=#{email}, realname=#{realname},company=#{company},mobilephone=#{mobilephone},idcard=#{idcard},province=#{province},city=#{city},address=#{address},emergency=#{emergency},emergencyphone=#{emergencyphone},usertype=#{usertype}
+		where id=#{id}
+	</update>
+	<delete id="delete" parameterType="User">
+		delete from
+		<include refid="tablename" />
+		where id=#{id}
+	</delete>
+	<update id="updateApproveRole" parameterType="User">
+        update
+        <include refid="tablename" />
+        set
+        approverole=#{approverole}
+        where id=#{id}
+    </update>
+    <update id="updatePassword" parameterType="User">
+        update
+        <include refid="tablename" />
+        set
+        password=#{password}
+        where id=#{id}
+    </update>
+    <update id="updateWX" parameterType="User">
+        update
+        <include refid="tablename" />
+        set
+        openid=#{openid},wx_nickName=#{wx_nickName},wx_avatarUrl=#{wx_avatarUrl},wx_gender=#{wx_gender},wx_city=#{wx_city},wx_province=#{wx_province},
+        wx_country=#{wx_country},wx_unionid=#{wx_unionid}
+        where id=#{id}
+    </update>
+	
+</mapper>
