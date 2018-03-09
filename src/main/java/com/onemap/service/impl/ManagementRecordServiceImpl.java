@@ -46,8 +46,10 @@ public class ManagementRecordServiceImpl extends BaseServiceImpl<ManagementRecor
 	}
 
 	@Override
-	public List<ManagementRecord> getByUsername(String username) {
-		return null;
+	public List<ManagementRecord> getByUsername(String username) throws Exception {
+		ManagementRecord t = new ManagementRecord();
+		t.setOperator(username);
+		return this.dao.listByLimit(t);
 	}
 
 	@Override

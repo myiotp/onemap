@@ -286,9 +286,28 @@ public class TruckController extends BaseController<Truck, Integer> {
 	}
 	@RequestMapping("username/{username}/status/confirmed")
 	@ResponseBody
-	public APIResponseBaseObject listConfirmedJsonByUsername(@PathVariable("username") String username,Truck t) throws Exception {
+	public APIResponseBaseObject listConfirmedJsonByUsername(@PathVariable("username") String username,
+			@RequestParam(value="page",required=false) Integer page,
+			@RequestParam(value="pageSize",required=false) Integer pageSize,
+			Truck t) throws Exception {
 		APIResponseBaseObject result = new APIResponseBaseObject();
+		System.out.println("page:" + page + ",pageSize:" + pageSize);
+		t.setPage(page);
+		t.setPageSize(pageSize);
 		List<Truck> tList = truckService.getByUsernameAndStatus(username, 11, t);
+		if(tList != null) {
+			for (Truck truck : tList) {
+				ManagementRecord tx = new ManagementRecord();
+				tx.setTruckId(truck.getId());
+				tx.setStatus(1);
+				List<ManagementRecord> list = this.mgtrecordService.list(tx);
+				if(list != null && list.size() > 0) {
+					Integer txId = list.get(0).getId();
+					truck.setTxId(txId);
+				}
+			}
+		}
+		
 		System.out.println(tList);
 		result.setData(tList);
 		result.setInfo("OK");

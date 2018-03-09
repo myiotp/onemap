@@ -8,15 +8,17 @@
 		<result column="positionX" property="positionX" />
 		<result column="positionY" property="positionY" />
 		<result column="machineryOperationId" property="machineryOperationId" />
-		<result column="positionSequence" property="positionSequence" />	
+		<result column="speed" property="speed" />	
+		<result column="positionSequence" property="positionSequence" />  
 	</resultMap>
 	
-	<sql id="fields">
-		id,positionX,positionY,machineryOperationId,positionSequence
-	</sql>
+	
 	<sql id="fieldsForInsert">
-		positionX,positionY,machineryOperationId,positionSequence
+		positionX,positionY,machineryOperationId,speed,positionSequence
 	</sql>
+	<sql id="fields">
+        id,<include refid="fieldsForInsert" />
+    </sql>
 	<sql id="tablename">
 		MachineryXY
 	</sql>
@@ -44,7 +46,7 @@
 		(
 		<include refid="fieldsForInsert" />
 		)
-		values(#{positionX},#{positionY},#{machineryOperationId},#{positionSequence})
+		values(#{positionX},#{positionY},#{machineryOperationId},#{speed},#{positionSequence})
 	</insert>
 	<select id="get" resultMap="MachineryXYRs" parameterType="Integer">
 		select

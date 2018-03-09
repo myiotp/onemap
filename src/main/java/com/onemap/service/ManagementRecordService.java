@@ -11,7 +11,7 @@ public interface ManagementRecordService extends
 
 	ManagementRecord getByUrl(@Param("var8") String var8) throws Exception;
 
-	List<ManagementRecord> getByUsername(String username);
+	List<ManagementRecord> getByUsername(@Param("username") String username) throws Exception;
 	void updateStatus(@Param("id") Integer id, @Param("status") Integer status);
 	void updateStatusWithApprovers(ManagementRecord t);
 	void updateApproveLevel(@Param("id") Integer id, @Param("approvelevel") Integer approvelevel);

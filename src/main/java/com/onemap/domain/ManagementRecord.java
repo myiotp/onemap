@@ -32,7 +32,7 @@ public class ManagementRecord  extends BaseModel{
 	private Goods cargoObj;
 	private Integer cargoId;
 	private Integer type;
-	private int status;
+	private Integer status;
 	private String blockNumber;
 	private String cropType;
 	

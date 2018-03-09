@@ -177,7 +177,7 @@ public class FileUploadController {
 
 				Reader in = new InputStreamReader(file.getInputStream());
 				Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(in);
-				int index = 1;
+				long index = 1;
 				for (CSVRecord record : records) {
 					Double positionX = Double.parseDouble(record.get(0));
 					Double positionY = Double.parseDouble(record.get(1));

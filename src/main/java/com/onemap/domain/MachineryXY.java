@@ -3,10 +3,13 @@
  */
 package com.onemap.domain;
 
+import lombok.Data;
+
 /**
  * @author junpingwang
  *
  */
+@Data
 public class MachineryXY  extends BaseModel{
 
 	/**
@@ -16,39 +19,14 @@ public class MachineryXY  extends BaseModel{
 	private Integer id;
 	private Double positionX;
 	private Double positionY;
+	private Double speed;
 	private Integer machineryOperationId;
-	private Integer positionSequence;
+	private Long positionSequence;
 	
 	public Integer getId() {
 		return id;
 	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public Double getPositionX() {
-		return positionX;
-	}
-	public void setPositionX(Double positionX) {
-		this.positionX = positionX;
-	}
-	public Double getPositionY() {
-		return positionY;
-	}
-	public void setPositionY(Double positionY) {
-		this.positionY = positionY;
-	}
-	public Integer getPositionSequence() {
-		return positionSequence;
-	}
-	public void setPositionSequence(Integer positionSequence) {
-		this.positionSequence = positionSequence;
-	}
-	public Integer getMachineryOperationId() {
-		return machineryOperationId;
-	}
-	public void setMachineryOperationId(Integer machineryOperationId) {
-		this.machineryOperationId = machineryOperationId;
-	}
+	
 	
 	
 }

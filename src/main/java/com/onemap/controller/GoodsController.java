@@ -206,6 +206,18 @@ public class GoodsController extends BaseController<Goods, Integer> {
 		t.setPage(page);
 		t.setPageSize(pageSize);
 		List<Goods> tList = service.getByUsernameAndStatus(username, 11, t);
+		if(tList != null) {
+			for (Goods item : tList) {
+				ManagementRecord tx = new ManagementRecord();
+				tx.setCargoId(item.getId());
+				tx.setStatus(1);
+				List<ManagementRecord> list = this.mgtrecordService.list(tx);
+				if(list != null && list.size() > 0) {
+					Integer txId = list.get(0).getId();
+					item.setTxId(txId);
+				}
+			}
+		}
 		System.out.println(tList);
 		result.setData(tList);
 		result.setInfo("OK");

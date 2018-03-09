@@ -75,6 +75,27 @@ public class UserTransactionAPIController extends BaseController<ManagementRecor
 		return result;
 	}
 
+	@RequestMapping(value = "username/{username}/confirmed", method = RequestMethod.GET)
+	@ResponseBody
+	public APIResponseBaseObject getConfirmedByUsername(@PathVariable("username") String username) {
+		APIResponseBaseObject result = new APIResponseBaseObject();
+		try {
+			ManagementRecord t = new ManagementRecord();
+			t.setOperator(username);
+			t.setStatus(1);
+			List<ManagementRecord> auths = this.service.listByLimit(t);
+			System.out.println(auths);
+			result.setData(auths);
+			result.setInfo("OK");
+			result.setStatus(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setInfo(e.getMessage());
+			result.setStatus(0);
+		}
+		return result;
+	}
+	
 	@RequestMapping(value = "username/{username}/vehicle", method = RequestMethod.GET)
 	@ResponseBody
 	public APIResponseBaseObject getByUsernameAndVehicle(@PathVariable("username") String username) throws Exception {

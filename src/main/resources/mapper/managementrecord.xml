@@ -98,6 +98,9 @@
             <if test="type != null">
                 and type  = #{type}
             </if>
+            <if test="status != null">
+                and status  = #{status}
+            </if>
 			<if test="queryBeginTime != null and queryEndTime != null">
 				and (date(operationTime) between #{queryBeginTime} and #{queryEndTime})
 			</if>
@@ -127,7 +130,7 @@
             <if test="type != null">
                 and type  = #{type}
             </if>
-            <if test="status >= -1">
+            <if test="status != null">
                 and status  = #{status}
             </if>
             <if test="operator != null">
@@ -159,6 +162,9 @@
             </if>
 			<if test="operator != null">
                 and operator  = #{operator}
+            </if>
+            <if test="status != null">
+                and status  = #{status}
             </if>
 			
 			<if test="whereClause != null">
