@@ -21,12 +21,30 @@
 <script type="text/javascript" src="../js/ahover.js"></script>
 <script src="../js/jstree/jstree.min.js"></script>
 <style>
+a:link{color:#fff; text-decoration:underline;outline:none;}
+a:visited { color:#fff; text-decoration:underline;}
+a:hover{color:#fff;text-decoration:none }
 
 .container {
     border-left: 1px solid #e2e2e2;
     float: left;
     padding-left: 20px;
     width: 900px;
+}
+
+ .apply_btn_box {
+    position: absolute;
+    right: 130px;
+    bottom: 300px;
+    animation: keyApplyBtn 1s 1 linear;
+}
+ .apply_btn {
+    color: #fff;
+    border: 1px solid #68697f;
+    line-height: 40px;
+    display: inline-block;
+    padding: 0 30px;
+    background-color:#68697f;
 }
 </style>
 </head>
@@ -38,90 +56,26 @@
 	<span class="blank18"></span>
 	<div class="page">
 		<!-- 左菜单 begin -->
-		<div style="width:350px;float:left">
-			<div id="sitetree"></div>
-		</div>
+		
 		<!-- 左菜单 end -->
 		
 		
 		<!-- 列表内容 begin -->
 		<!--  主体   start -->
 		<div id="data">
-			<div class="content code" style="display:none;"><textarea id="code" readonly="readonly"></textarea></div>
-			<div class="content folder" style="display:none;"></div>
-			<div class="content image" style="display:none; position:relative;"><img src="" alt="" style="display:block; position:absolute; left:50%; top:50%; padding:0; max-height:90%; max-width:90%;" /></div>
-			<div class="content default" style="text-align:center;"></div>
+			<img src="https://www.tongdagufen.cn/images/openplatform.png"/>
+			<a class="apply_btn" href="https://www.tongdagufen.cn/images/help/userguide.pdf"  target="_blank">下载使用手册</a>
+			<div class="apply_btn_box">
+            </div>
 		</div>
-
+        
 	</div>	
 	<c:import url="../common/footer.jsp"></c:import>	
 <script type="text/javascript">
-	
-	// data format demo
-	$('#sitetree')
-	    .on("changed.jstree", function (e, data) {
-			if(data && data.selected && data.selected.length) {
-				var _d = data.selected[0];
-				if(_d.indexOf("city_") == 0){
-					var _node = data.instance.get_node(data.selected[0]);
-					//(_node);
-					$('#data .content').hide();
-					$('#data .default').html('').show();
-				}else if(_d.indexOf("info") == 0){
-					var _node = data.instance.get_node(data.selected[0]);
-					//(_node);
-					$('#data .content').hide();
-					$('#data .default').html('').show();
-				}else{
-					$.get('../siteinfo/show?id=' + data.selected[0], function (d) {
-						$('#data .default').html(d).show();
-					});
-				}
-			
-			}
-			else {
-				$('#data .content').hide();
-				$('#data .default').html('').show();
-			}
-		})
-		.jstree({
-		'core' : {
-			'multiple' : false,
-			'data' : {
-				"url" : "../siteinfo/tree",
-				"data" : function (node) {
-					return { "id" : node.id };
-				}
-			}
-		},
-		'plugins' : ['state','wholerow']
-	});
-	
-		$(function(){
-		var memuid=8;
-		var objLink=$("a[href*='memuid="+memuid+"']");
-		objLink.parent().attr('class',"current");
-		$('li.group').click(function(){
-			if($(this).hasClass('open')){
-				$(this).nextAll().hide();
-				$(this).removeClass('open');
-			}else{
-				$(this).nextAll().show();
-				$(this).addClass('open');
-			}
-		});
-		$('li.group').each(function(){
-			var iscurrent=false;
-			$(this).nextAll().each(function(){
-				if($(this).html().indexOf(curl)>0){
-					iscurrent=true;
-				}
-			});
-			!iscurrent&&$(this).click();
-			
-		});
+var memuid=8;
+var objLink=$("a[href*='memuid="+memuid+"']");
+objLink.parent().attr('class',"current");
 		
-		});
 		</script>
 </body>
 </html>

@@ -29,7 +29,10 @@
     overflow: hidden;
     width: 100%;
 }
-
+.table100.ver2 tbody tr:nth-child(even) {
+  background-color: #6c7ae0;
+  color: #fff;
+}
 </style>
 <body>
 	
@@ -37,22 +40,11 @@
 	<c:import url="../common/top.jsp">
 	<c:param name="memuid" value="7"></c:param></c:import>
 	<span class="blank18"></span>
-	<div class="page">
+	<div>
 		<div class="lm">
             <div style="overflow: hidden; float: left;width:100%">
-                <div class="title y_j_ttl">
-                    <div class="fl bold white">
-                        <a href="#" style="color: #fff">实时货源</a></div>
-                    <div class="ser" style="padding-left: 17px">
-                       </div>
-                  
-                   
-                   
-                    <div class="fr" style="float: right;">
-                        <a href="editlist" target="_blank">更多>>>>>&gt;&gt;</a></div>
-                </div>
-                <div style="clear: both">
-                </div>
+               
+                
                 <div style="width: 100%; overflow: hidden; border: 1px solid #dbdbdb; border-top: none; margin-bottom: 5px;">
                     <div id="con_huoyuan_1" style="display: block;" width="100%">
                         <table id="con_huoyuan_1" width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -72,16 +64,16 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div id="demo" style="overflow: hidden; width: 100%; height: 480px">
+                        <div id="demo" style="overflow: hidden; width: 100%; height: 480px" class="table100 ver2 m-b-110">
                             <ul id="demo3" style="margin-top: -244px;">
                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
                                     <tbody>
                                     
              <c:forEach items="${resultList}" var="result"  varStatus="varStatus">                            
                                         <tr onmouseout="Kkdown(this);" onmouseover="Kkover(this);">
-                                            <td class="bghuiw" width="8%"> ${result.fromCityName}</td>
-                                            <td class="bghuiw" width="14%" style="color: #8E4904;">${result.fromname}</td>
-                                            <td class="bghuiw" width="13%" style="color: #8E4904;"> ${result.toname}</td>
+                                            <td class="bghuiw" width="8%">${result.fromCityName}</td>
+                                            <td class="bghuiw" width="14%">${result.fromname}</td>
+                                            <td class="bghuiw" width="13%">${result.toname}</td>
                                             <td class="bghuiw" width="8%">${result.cargoName}</td>
                                             <td class="bghuiw" width="10%">${result.cargoWeight}</td>
                                             <td class="bghuiw" width="8%">${result.carType}</td>
@@ -98,6 +90,17 @@
                             </ul>
                         </div>
                     </div>
+                </div>
+                
+                 <div class="title">
+                    <!-- 
+                    <div class="fl bold white">
+                        <a href="#" style="color: #fff">实时货源</a></div>
+                    <div class="ser" style="padding-left: 17px">
+                       </div>
+                     -->
+                    <div class="fr" style="float: right;">
+                        <a href="editlist" target="_blank">更多>>>>>&gt;&gt;</a></div>
                 </div>
             </div>
         </div>

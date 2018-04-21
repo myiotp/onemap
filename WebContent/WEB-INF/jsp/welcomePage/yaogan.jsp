@@ -16,6 +16,7 @@
 <script src="../jquery-ui-1.11.1.custom/jquery-ui.min.js" type="text/javascript"></script>
 <script src="../bootstrap-3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="../js/ahover.js"></script>
+
 </head>
 <body>
 	
@@ -30,8 +31,8 @@
 		</c:import>
 		<!-- 列表内容 begin -->
 		<!--  主体   start -->
-		<img src="../images/2013_henan_yaogan.png"/>
-
+		<img src="https://www.tongdagufen.cn/images/openplatform.png"/>
+        
 	</div>	
 	<c:import url="../common/footer.jsp"></c:import>	
 

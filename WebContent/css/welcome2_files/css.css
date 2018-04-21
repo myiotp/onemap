@@ -1071,7 +1071,7 @@ _line-height: 30px;
 
 .gongsx a{ color:#8E4904;}
 
-.bghui{background:#f4f4f4; height:30px; line-height:30px; border-left:1px solid #d3d3d3; font-weight:bold}
+.bghui{color: #fff;background:#002933; height:30px; line-height:30px; border-left:1px solid #d3d3d3; font-weight:bold;font-size:13px;}
 
 .huifuinput{height:20px}
 

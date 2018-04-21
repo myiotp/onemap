@@ -10,31 +10,14 @@
 	<div class="logo1"></div>
 	 <div class="logo"></div>
 	<div class="topinfo"><span class="loginout">
-	
-	
-	<%
-	User currentuser = (User)SecurityUtils.getSubject().getPrincipal();
-	if(currentuser != null){
-	%>
-	<a href="../user/logout">退出登录</a></span><%=currentuser.getUsername()%></div>
-	<%	
-	}else{
-	%>
-	<a href="../user/login">登录</a></span></div>
-	<%	
-	}	
-	%>
+	</div>
 	<div class="menupage">
 		<ul class="topmenu">
 			<li><a href="../topmemu/list?memuid=0">总览</a></li>		
 			<li><a href="../topmemu/list?memuid=7">货源信息</a></li>	
 			<li><a href="../topmemu/list?memuid=3">车源信息</a></li>
 			
-			<!--
-			 灾情评估 
-			<li><a href="../topmemu/list?memuid=5">产量预测</a></li>
-			<li><a href="../topmemu/list?memuid=8">合作社信息</a></li>
-			-->
+			
 <%Object checkRoleObj = session.getAttribute("admin");
 boolean isAdmin = checkRoleObj!=null && Boolean.parseBoolean(checkRoleObj.toString());
 Object obj = request.getSession().getAttribute("approverole");
@@ -57,7 +40,20 @@ if(isAdmin){
 
 
 <%}  %>	
-
+        <li><a href="../topmemu/list?memuid=8">使用帮助</a></li>
+        <%
+	    User currentuser = (User)SecurityUtils.getSubject().getPrincipal();
+	    if(currentuser != null){
+	    %>
+	    <li><a href="../user/logout">退出登录</a></li>
+	    <li><a href="#">[<%=currentuser.getUsername()%>]</a></li>
+	    <%  
+	    }else{
+	    %>
+	    <li><a href="../user/login">登录</a></span></li>
+	    <%  
+	    }   
+	    %>
   
              	
 			

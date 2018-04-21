@@ -63,9 +63,9 @@ public class WXController {
 			return responseObject;
 		}
 		// 小程序唯一标识 (在微信小程序管理后台获取)
-		String wxspAppid = "wxc55ee3a8af900bb7";
+		String wxspAppid = System.getenv("wxspAppid");
 		// 小程序的 app secret (在微信小程序管理后台获取)
-		String wxspSecret = "c3ef1784dce34bccca38ec51add240ba";
+		String wxspSecret = System.getenv("wxspSecret");
 		// 授权（必填）
 		String grant_type = "authorization_code";
 		//////////////// 1、向微信服务器 使用登录凭证 code 获取 session_key 和 openid ////////////////
