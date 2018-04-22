@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans    
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
+           http://www.springframework.org/schema/context    
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/tx   
+      	   http://www.springframework.org/schema/tx/spring-tx-3.0.xsd   
+       	   http://www.springframework.org/schema/aop   
+      	   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+      	   http://www.springframework.org/schema/task
+      	   http://www.springframework.org/schema/task/spring-task-3.0.xsd
+      	   http://www.springframework.org/schema/jdbc
+      	   http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+      	   http://www.springframework.org/schema/data/jpa
+      	   http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd">
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:env/pro.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- DataSource -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<!-- ${datasource.url} -->
+		<property name="jdbcUrl">
+			<value>jdbc:mysql://127.0.0.1:3306/onemap?useUnicode=true&amp;characterEncoding=UTF-8</value>
+		</property>
+		<property name="user">
+			<value>root</value>
+		</property>
+		<!-- ${datasource.password} -->
+		<property name="password">
+			<value>${datasource.password}</value>
+		</property>
+		<!-- 指定连接池里最小连接数 -->
+		<property name="minPoolSize">
+			<value>2</value>
+		</property>
+		<!-- 指定连接池里最大连接数 -->
+		<property name="maxPoolSize">
+			<value>2</value>
+		</property>
+		<!-- 连接最大空闲时间，超过时间将被丢弃,单位是秒 -->
+		<property name="maxIdleTime">
+			<value>600</value>
+		</property>
+		<!-- 当连接池里面的连接用完的时候，C3P0一次获取的新的连接数 -->
+		<property name="acquireIncrement">
+			<value>3</value>
+		</property>
+		<!-- 指定连接池里最大缓存多少个Statement对象 -->
+		<property name="maxStatements">
+			<value>100</value>
+		</property>
+		<!-- 初始创建连接的数量 -->
+		<property name="initialPoolSize">
+			<value>2</value>
+		</property>
+		<!-- 每隔XX秒检查连接池里的空闲连接 ，单位是秒 -->
+		<property name="idleConnectionTestPeriod">
+			<value>900</value>
+		</property>
+		<property name="numHelperThreads">
+			<value>10</value>
+		</property>
+		<property name="preferredTestQuery" value="select 1 from dual" />
+	</bean>
+
+	<!-- Session Factory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis-config.xml"> </property>
+		<property name="mapperLocations">
+			<list>
+				<value>classpath*:mapper/*.xml</value>
+			</list>
+		</property>
+		<property name="typeAliasesPackage"
+			value="com.onemap.domain" />
+	</bean>
+
+	<!-- 自动扫描包下带有@Repository注解的接口为spring的bean -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.onemap.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- Transaction Manager -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="rollbackOnCommitFailure" value="true" />
+	</bean>
+
+</beans>

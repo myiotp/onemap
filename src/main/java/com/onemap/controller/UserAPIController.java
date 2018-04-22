@@ -164,6 +164,17 @@ public class UserAPIController extends BaseController<User, Integer> {
 					t.setEmail(olduser.getEmail());
 					t.setId(user.getId());
 					this.getBaseService().update(t);
+					
+					List<IdentityAuth> userAuths = authservice.getByUsernameAndType(username, "100");
+					if(userAuths != null) {
+						for (IdentityAuth identityAuth : userAuths) {
+							identityAuth.setComment("提交资料后需要重新实名认证");
+							identityAuth.setAuthresult(0);
+							authservice.update(identityAuth);
+						}
+					}
+					
+					
 				} else {
 					result.setInfo("username not unqiue");
 					result.setStatus(10);

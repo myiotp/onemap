@@ -101,14 +101,16 @@ public class TruckServiceImpl extends BaseServiceImpl<Truck, Integer> implements
 	@Override
 	public List<Truck> getByUsernameAndNonStatus(String username, int status,Truck t) throws Exception {
 		List<Clause> whereClause = new ArrayList<>();
-		Clause clause = new Clause();
+		
 		{
+			Clause clause = new Clause();
 			clause.setColumn("username");
 			clause.setOperator("=");
 			clause.setValue(username);
 			whereClause.add(clause);
 		}
 		{
+			Clause clause = new Clause();
 			clause.setColumn("status");
 			clause.setOperator("!=");
 			clause.setValue(status);

@@ -106,14 +106,16 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods, Integer>
 	public List<Goods> getByUsernameAndNonStatus(String username, int status, Goods t) throws Exception {
 		//Goods t = new Goods();
 		List<Clause> whereClause = new ArrayList<>();
-		Clause clause = new Clause();
+		
 		{
+			Clause clause = new Clause();
 			clause.setColumn("username");
 			clause.setOperator("=");
 			clause.setValue(username);
 			whereClause.add(clause);
 		}
 		{
+			Clause clause = new Clause();
 			clause.setColumn("status");
 			clause.setOperator("!=");
 			clause.setValue(status);

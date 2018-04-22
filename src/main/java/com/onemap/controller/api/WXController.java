@@ -31,6 +31,15 @@ public class WXController {
 	@Autowired
 	private UserService service;
 	
+	@RequestMapping(value = "about", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public APIResponseBaseObject about() {
+		APIResponseBaseObject responseObject = new APIResponseBaseObject();
+		responseObject.setData("所在地址：山东省日照市莒县山东路555号， 联系电话：0633-7771111");
+		responseObject.setStatus(1);
+		responseObject.setInfo("OK");
+		return responseObject;
+	}
 	@RequestMapping(value = "username/{openid}", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public APIResponseBaseObject getUsernameByOpenid(@PathVariable("openid") String openid) {
