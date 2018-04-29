@@ -25,7 +25,7 @@ public class User  extends BaseModel{
 	private boolean b1,b2,b3;
 	private int approverole;
 	private String actiontype;
-	
+	private int isinternal;
 	public Integer getId() {
 		return id;
 	}

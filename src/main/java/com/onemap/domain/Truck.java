@@ -69,7 +69,7 @@ public class Truck extends BaseModel {
 	private boolean favoited;
 	
 	private int txId;
-	
+	private int isinternal;
 	@Override
 	public Integer getId() {
 		return id;

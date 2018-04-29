@@ -13,7 +13,8 @@
 	</div>
 	<div class="menupage">
 		<ul class="topmenu">
-			<li><a href="../topmemu/list?memuid=0">总览</a></li>		
+			<li><a href="../topmemu/list?memuid=0">总览</a></li>	
+			<li><a href="../topmemu/list?memuid=9">新闻资讯</a></li>	
 			<li><a href="../topmemu/list?memuid=7">货源信息</a></li>	
 			<li><a href="../topmemu/list?memuid=3">车源信息</a></li>
 			
@@ -46,7 +47,7 @@ if(isAdmin){
 	    if(currentuser != null){
 	    %>
 	    <li><a href="../user/logout">退出登录</a></li>
-	    <li><a href="#">[<%=currentuser.getUsername()%>]</a></li>
+	    <!-- <li><a href="#">[<%=currentuser.getUsername()%>]</a></li> -->
 	    <%  
 	    }else{
 	    %>

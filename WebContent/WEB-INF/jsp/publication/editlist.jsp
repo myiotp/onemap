@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>行业报告管理</title>
+<title>新闻资讯管理</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
@@ -46,7 +46,7 @@ $(function(){
 <!-- 列表内容 begin -->
 	<div class="container">
 		    	<div class="connav">
-			       		» <a href="./editlist">行业报告管理</a> &gt; 行业报告列表    	</div>
+			       		» <a href="./editlist">新闻资讯管理</a> &gt; 新闻资讯列表    	</div>
 		    	<!--  主体   start -->
 <div class="topselect">
 	<form method="get" action="?" id="form1" name="form1">
@@ -80,15 +80,16 @@ $(function(){
 							                	<td data-title="'标题'" filter="{ 'title': 'text' }"  sortable="'title'">
 							                        {{obj.title}}
 							                    </td>
-							                    <td data-title="'来源'" filter="{ 'source': 'text' }" sortable="'source'">
+							                    <td data-title="'类别'" filter="{ 'source': 'text' }" sortable="'source'">
 							                        {{obj.source}}
 							                    </td>
 												<td data-title="'发布时间'" filter="{ 'time': 'text' }" sortable="'time'">
 							                       {{obj.time| date:'yyyy-MM-dd'}}
 							                    </td>
+							                    <!-- 
 							                    <td data-title="'阅读次数'" filter="{ 'readamount': 'text' }" sortable="'readamount'">
 							                        {{obj.readamount}}
-							                    </td>
+							                    </td> -->
 												<td data-title="'详细'">
 													<a title="详细" class="getglobal icoglobal" href ="#" ng-click="showDetailDialog2(obj.id)"></a>
 												</td>												

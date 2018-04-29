@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>行业报告管理</title>
+<title>新闻资讯管理</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <link href="../css/global.css" rel="stylesheet" type="text/css" />
@@ -25,18 +25,14 @@
 		    	
 		    	<!--  主体   start -->
 
-
-<h1 class="navbig"><span class="navleft"><em class="ico"></em>行业报告信息</span></h1>
-
 <div class="content_nr">
         <br/><br/><br/>
         <div class="ny_main">
           <div class="new_biaoti">
-               <font style="font-size:16px;">${currentObj.title }</font>
+               <font style="font-size:20px;"><b>${currentObj.title }</b></font>
           </div>
-          <div class="new_time">  
-                                           本信息于 ${currentObj.time } 发布 (出处: ${currentObj.source })
-                                           共 ${currentObj.readamount }次访问</div>
+          <div class="new_time">类别: ${currentObj.source }</div>
+          <div class="new_time">本信息于<fmt:formatDate value="${currentObj.time}" pattern="yyyy年MM月dd日" />发布</div>
           <div class="new_wenzi">
             ${currentObj.content }	
                  
@@ -65,7 +61,7 @@ $(document).ready(function() {
 		onCorrect:""
 	}).inputValidator({
 		min:1,
-		onError: "请填写行业报告名称!"
+		onError: "请填写新闻资讯名称!"
 	});
 	
 		

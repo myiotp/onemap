@@ -297,6 +297,8 @@ public class UserController extends BaseController<User, Integer> {
 					Md5Hash hash = new Md5Hash(originalPassword);
 					t.setPassword(hash.toHex());
 					service.updatePassword(t);
+				} else if(actiontype.equals("300")) {
+					service.updateInternal(t);
 				}
 			}
 			

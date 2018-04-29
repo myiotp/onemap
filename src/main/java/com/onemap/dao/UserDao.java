@@ -13,5 +13,6 @@ public interface UserDao extends BaseDao<User, Integer>{
 
 	void updateApproveRole(User t);
 	void updatePassword(User t);
+	void updateInternal(User t);
 	void updateWX(User t);
 }

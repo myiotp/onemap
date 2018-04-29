@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>行业报告管理</title>
+<title>新闻资讯管理</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <link rel="stylesheet" href="../jquery-ui-1.11.1.custom/jquery-ui.min.css"> 
@@ -18,7 +18,14 @@
 <script type="text/javascript" src="../js/ahover.js"></script>
 </head>
 <body>
-
+<c:import url="../common/top.jsp">
+    <c:param name="memuid" value="9"></c:param></c:import>
+    <span class="blank18"></span>
+<div class="page">
+    <c:import url="../common/left.jsp">
+    <c:param name="memuid" value="9"></c:param>
+    <c:param name="a" value="9"></c:param>
+    </c:import>
 		
 <!-- 列表内容 begin -->
 	<div class="container">
@@ -28,16 +35,15 @@
 <div class="onlinelist">
 <h2 class="indextitle"><em></em><em class="b2"></em><span></span><p class="tit1">
 <c:choose>
-<c:when test="${!empty resultList}">共计行业报告数量：${totalCount}</c:when>
-<c:otherwise>暂无行业报告！</c:otherwise> </c:choose>
+<c:when test="${!empty resultList}">共计新闻资讯数量：${totalCount}</c:when>
+<c:otherwise>暂无新闻资讯！</c:otherwise> </c:choose>
 </p></h2>
    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse">
         <tr>
     			<th><span>ID</span></th>
 				<th><span>标题</span></th>
 				<th><span>发布时间</span></th>
-				<th><span>来源</span></th>
-				<th><span>阅读次数</span></th>
+				<th><span>类别</span></th>
 				<th><span>内容</span></th>
   			</tr>
                       
@@ -48,7 +54,6 @@
     			<td >${obj.title}</td>
     			<td><fmt:formatDate value="${obj.time}" pattern="yyyy年MM月dd日" /></td>
 				<td >${obj.source}</td>
-				<td >${obj.readamount}</td>
 				<td width=100>
     			<a title="详细" class="getglobal icoglobal" href ="./view?id=${obj.id }" target="_blank"></a>    			
     			</td>

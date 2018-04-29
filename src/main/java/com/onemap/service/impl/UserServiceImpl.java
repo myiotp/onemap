@@ -62,5 +62,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
 		userDao.updateWX(t);
 	}
 
+	@Override
+	public void updateInternal(User t) {
+		userDao.updateInternal(t);
+		
+	}
+
 
 }

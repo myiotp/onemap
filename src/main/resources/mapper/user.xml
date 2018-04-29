@@ -29,12 +29,12 @@
         <result column="emergencyphone" property="emergencyphone" />
         
         <result column="approverole" property="approverole" />
-		
+		<result column="isinternal" property="isinternal" />
 		<collection property="whereClause" ofType="Clause">			
 		</collection>
 	</resultMap>
 	<sql id="fieldsForInsert">
-		openid,wx_nickName,wx_avatarUrl,wx_gender,wx_city,wx_province,wx_country,wx_unionid,username,password,email,realname,company,mobilephone,idcard,province,city,address,emergency,emergencyphone,usertype,approverole
+		openid,wx_nickName,wx_avatarUrl,wx_gender,wx_city,wx_province,wx_country,wx_unionid,username,password,email,realname,company,mobilephone,idcard,province,city,address,emergency,emergencyphone,usertype,approverole,isinternal
 	</sql>
 	<sql id="fields">
 		id,
@@ -97,7 +97,7 @@
 		(
 		<include refid="fieldsForInsert" />
 		)
-		values(#{openid},#{wx_nickName},#{wx_avatarUrl},#{wx_gender},#{wx_city},#{wx_province},#{wx_country},#{wx_unionid},#{username},#{password},#{email},#{realname},#{company},#{mobilephone},#{idcard},#{province},#{city},#{address},#{emergency},#{emergencyphone},#{usertype},#{approverole})
+		values(#{openid},#{wx_nickName},#{wx_avatarUrl},#{wx_gender},#{wx_city},#{wx_province},#{wx_country},#{wx_unionid},#{username},#{password},#{email},#{realname},#{company},#{mobilephone},#{idcard},#{province},#{city},#{address},#{emergency},#{emergencyphone},#{usertype},#{approverole},#{isinternal})
 	</insert>
 	<select id="get" resultMap="userRs" parameterType="Integer">
 		select
@@ -145,6 +145,13 @@
         <include refid="tablename" />
         set
         password=#{password}
+        where id=#{id}
+    </update>
+     <update id="updateInternal" parameterType="User">
+        update
+        <include refid="tablename" />
+        set
+        isinternal=#{isinternal}
         where id=#{id}
     </update>
     <update id="updateWX" parameterType="User">

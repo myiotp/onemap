@@ -26,6 +26,7 @@ import com.onemap.domain.IdentityAuth;
 import com.onemap.domain.ManagementRecord;
 import com.onemap.domain.Province;
 import com.onemap.domain.Truck;
+import com.onemap.domain.User;
 import com.onemap.domain.UserFavorite;
 import com.onemap.domain.UserVehicle;
 import com.onemap.service.BaseService;
@@ -34,6 +35,7 @@ import com.onemap.service.IdentityAuthService;
 import com.onemap.service.ManagementRecordService;
 import com.onemap.service.ProvinceService;
 import com.onemap.service.UserFavoriteService;
+import com.onemap.service.UserService;
 import com.onemap.utl.common.CalculateDisUtil;
 
 @Controller
@@ -51,7 +53,8 @@ public class GoodsController extends BaseController<Goods, Integer> {
 	private IdentityAuthService authservice;
 	@Autowired
 	private ManagementRecordService mgtrecordService;
-	
+	@Autowired
+	private UserService userService;
 	@Override
 	BaseService<Goods, Integer> getBaseService() {
 		return this.service;
@@ -195,6 +198,33 @@ public class GoodsController extends BaseController<Goods, Integer> {
 		result.setStatus(1);
 		return result;
 	}
+	@RequestMapping("username/{username}/latest")
+	@ResponseBody
+	public APIResponseBaseObject listLatestJsonByUsername(@PathVariable("username") String username, Goods t) throws Exception {
+		APIResponseBaseObject result = new APIResponseBaseObject();
+		t.setPage(1);
+		t.setPageSize(1);
+		List<Goods> tList = service.getByUsername(username, t);
+		System.out.println(tList);
+		if(tList!=null && tList.size()>0) {
+			result.setData(tList.get(0));
+		} else {
+			User user = userService.getByUsername(username);
+			if(user != null) {
+				Goods item = new Goods();
+				item.setCargoOwner(user.getRealname());
+				item.setOwnerCellphone(user.getMobilephone());
+				item.setOwnercompany(user.getCompany());
+				item.setOperator(user.getRealname());
+				item.setEmergencyContact(user.getEmergency());
+				item.setEmergencyCellphone(user.getEmergencyphone());
+				result.setData(item);
+			}
+		}
+		result.setInfo("OK");
+		result.setStatus(1);
+		return result;
+	}
 	
 	@RequestMapping("username/{username}/status/confirmed")
 	@ResponseBody
@@ -234,6 +264,14 @@ public class GoodsController extends BaseController<Goods, Integer> {
 		t.setPageSize(pageSize);
 		List<Goods> tList = service.getByUsernameAndNonStatus(username, 11, t);
 		System.out.println(tList);
+		if(tList != null) {
+			for (Goods item : tList) {
+				ManagementRecord record = new ManagementRecord();
+				record.setCargoId(item.getId());
+				int count = mgtrecordService.count(record);
+				item.setTxId(count);
+			}
+		}
 		result.setData(tList);
 		result.setInfo("OK");
 		result.setStatus(1);

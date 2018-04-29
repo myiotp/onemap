@@ -3,7 +3,9 @@
  */
 package com.onemap.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,6 +60,41 @@ public class IdentityAuthAPIController extends BaseController<IdentityAuth, Inte
 				identityAuth.setUsertype(usertype);
 				result.setData(identityAuth);
 			}
+			result.setInfo("OK");
+			result.setStatus(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setInfo(e.getMessage());
+			result.setStatus(0);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value = "{username}/types", method = RequestMethod.GET)
+	@ResponseBody
+	public APIResponseBaseObject getByUsernameAndTypes(@PathVariable("username") String username) {
+		APIResponseBaseObject result = new APIResponseBaseObject();
+		Map<String, Integer> map = new HashMap<>();
+		try {
+			List<IdentityAuth> auths = this.service.getByUsernameAndType(username, "100");
+			System.out.println(auths);
+			if (auths.size() > 0) {
+				User byUsername = userservice.getByUsername(username);
+				int usertype = byUsername.getUsertype();
+				IdentityAuth identityAuth = auths.get(0);
+				identityAuth.setUsertype(usertype);
+				map.put("100", identityAuth.getAuthresult());
+			}
+			auths = this.service.getByUsernameAndType(username, "200");
+			System.out.println(auths);
+			if (auths.size() > 0) {
+				User byUsername = userservice.getByUsername(username);
+				int usertype = byUsername.getUsertype();
+				IdentityAuth identityAuth = auths.get(0);
+				identityAuth.setUsertype(usertype);
+				map.put("200", identityAuth.getAuthresult());
+			}
+			result.setData(map);
 			result.setInfo("OK");
 			result.setStatus(1);
 		} catch (Exception e) {

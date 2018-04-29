@@ -8,6 +8,7 @@ public interface UserService extends BaseService<User, Integer> {
 
 	void updateApproveRole(User t);
 	void updatePassword(User t);
+	void updateInternal(User t);
 	void updateWX(User t);
 
 	User getByOpenid(String openid) throws Exception;

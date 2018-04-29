@@ -20,7 +20,7 @@ System.out.println("[[[[[[[[]]]]]]]]"+htmlData);
 <!DOCTYPE html>
 <html>
 <head>
-<title>行业报告管理</title>
+<title>新闻资讯管理</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <link rel="stylesheet" href="../jquery-ui-1.11.1.custom/jquery-ui.min.css"> 
@@ -95,14 +95,14 @@ System.out.println("[[[[[[[[]]]]]]]]"+htmlData);
 <!-- 列表内容 begin -->
 	<div class="container">
 		    	<div class="connav">
-			       		» <a href="./editlist">行业报告管理</a> &gt; 新建行业报告    	</div>
+			       		» <a href="./editlist">新闻资讯管理</a> &gt; 新建新闻资讯    	</div>
 		    	<!--  主体   start -->
 		    	
 <form name="form1" id="form1" action="./save" method="post">
 <input type="hidden" name="id" value="${currentObj.id }"/>
 <div class="userinfolist">
 <h3 class="navbig"><span class="navleft"><em class="ico"></em><c:choose><c:when test="${currentObj ==null }">添加</c:when>
-<c:otherwise>修改</c:otherwise></c:choose>行业报告信息</span></h3>
+<c:otherwise>修改</c:otherwise></c:choose>新闻资讯信息</span></h3>
      <div class="new_item">
 		<div class="tit"><em>*</em>标题：</div>
 		<div class="bdmain">
@@ -124,7 +124,7 @@ System.out.println("[[[[[[[[]]]]]]]]"+htmlData);
 		</div><div class="new_plus"><span id="timeTip"></span></div>
     </div>
 	<div class="new_item">
-		<div class="tit"><em></em>来源：</div>
+		<div class="tit"><em></em>类别：</div>
 		<div class="bdmain">
 		
 			<label onmouseout="this.className='input_out'" onmousemove="this.className='input_move'" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onfocus="this.className='input_on';this.onmouseout=''" class="input_out">
@@ -163,7 +163,7 @@ $(document).ready(function() {
 		onCorrect:""
 	}).inputValidator({
 		min:1,
-		onError: "请填写行业报告名称!"
+		onError: "请填写新闻资讯名称!"
 	});
 	$("#time").formValidator({
 		tipID:"timeTip",

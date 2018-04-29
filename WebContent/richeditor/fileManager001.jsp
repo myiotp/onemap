@@ -4,11 +4,14 @@
 <%@ page import="org.json.simple.*" %>
 <%
 
+String rootPath ="/root/mynginxfiles/staticfiles/images/onemap/attached/";
 
 //根目录路径，可以指定绝对路径，比如 /var/www/attached/
-String rootPath = pageContext.getServletContext().getRealPath("/") +  "../../../../onemap/attached/";
+//String rootPath = pageContext.getServletContext().getRealPath("/") +  "../../../../onemap/attached/";
 //根目录URL，可以指定绝对路径，比如 http://www.yoursite.com/attached/
-String rootUrl  = request.getContextPath() + "/attached/";
+String rootUrl  = "https://www.tongdagufen.cn/images/onemap/attached/";
+
+//String rootUrl  = request.getContextPath() + "/attached/";
 //图片扩展名
 String[] fileTypes = new String[]{"gif", "jpg", "jpeg", "png", "bmp"};
 

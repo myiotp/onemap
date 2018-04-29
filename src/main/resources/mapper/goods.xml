@@ -45,12 +45,13 @@
 		<result column="emergency_cellphone" property="emergencyCellphone" />
 		<result column="category" property="category" />	
 		<result column="mileage" property="mileage" />
+		<result column="isinternal" property="isinternal" />
 	</resultMap>
 	
 	<sql id="fieldsForInsert">
 		username,from_area_name,from_city_name,from_province_name,from_address,to_area_name,to_city_name,to_province_name,to_address,car_type,car_length,
 		status,cargo_owner,owner_cellphone,cargo_name,cargo_weight,ship_timestamp,price,payment,valid_days,memo,wechat,emergency_contact,emergency_cellphone,
-		category,mileage,fromid,fromname,toid,toname,fromlng,fromlat,tolng,tolat,vehicledimension,cargotype,ownercompany,operator
+		category,mileage,fromid,fromname,toid,toname,fromlng,fromlat,tolng,tolat,vehicledimension,cargotype,ownercompany,operator,isinternal
 	</sql>
 	<sql id="fields">
         id,
@@ -160,7 +161,7 @@
 		values(#{username},#{fromAreaName},#{fromCityName},#{fromProvinceName},#{fromAddress},#{toAreaName},#{toCityName},#{toProvinceName},#{toAddress},
 		#{carType},#{carLength},#{status},#{cargoOwner},#{ownerCellphone},#{cargoName},#{cargoWeight},#{shipTimestamp},#{price},#{payment},
 		#{validDays},#{memo},#{wechat},#{emergencyContact},#{emergencyCellphone},#{category},#{mileage},#{fromid},#{fromname},#{toid},#{toname},
-		#{fromlng},#{fromlat},#{tolng},#{tolat},#{vehicledimension},#{cargotype},#{ownercompany},#{operator})
+		#{fromlng},#{fromlat},#{tolng},#{tolat},#{vehicledimension},#{cargotype},#{ownercompany},#{operator},#{isinternal})
 	</insert>
 	<select id="get" resultMap="goodsRs" parameterType="Integer">
 		select

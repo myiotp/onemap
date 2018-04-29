@@ -59,7 +59,7 @@
 				<c:redirect url="../siteinfo/list" />
 			</c:when>
 			<c:when test="${param.memuid==9}">
-				<c:redirect url="../user/editlist" />
+				<c:redirect url="../publication/views" />
 			</c:when>
 		</c:choose>
 		

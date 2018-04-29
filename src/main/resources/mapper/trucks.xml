@@ -51,11 +51,12 @@
 		<result column="register_area_name" property="registerAreaName" />
 		<result column="register_city_name" property="registerCityName" />
 		<result column="register_province_name" property="registerProvinceName" />
+		<result column="isinternal" property="isinternal" />
 	</resultMap>
 	
 	<sql id="fieldsForInsert">
 username,licenseplate,owner,from_area_name,from_city_name,from_province_name,from_address,to_area_name,to_city_name,to_province_name,to_address,car_type,car_length,status,owner_cellphone,truck_barnd,truck_name,truck_weight,ship_timestamp,price,payment,valid_days,memo,wechat,emergency_contact,emergency_cellphone,category,mileage,register_area_name,register_city_name,register_province_name,fromid,fromname,toid,toname,fromlng,fromlat,tolng,tolat,
-vehicledimension,cargotype,ownercompany,operator
+vehicledimension,cargotype,ownercompany,operator,isinternal
 	</sql>
 	<sql id="fields">
         id,
@@ -156,7 +157,7 @@ vehicledimension,cargotype,ownercompany,operator
 		values(#{username},#{licenseplate},#{owner},#{fromAreaName},#{fromCityName},#{fromProvinceName},#{fromAddress},#{toAreaName},#{toCityName},#{toProvinceName},#{toAddress},
 		#{carType},#{carLength},#{status},#{ownerCellphone},#{truckBarnd},#{truckName},#{truckWeight},#{shipTimestamp},#{price},#{payment},
 		#{validDays},#{memo},#{wechat},#{emergencyContact},#{emergencyCellphone},#{category},#{mileage},#{registerAreaName},#{registerCityName},
-		#{registerProvinceName},#{fromid},#{fromname},#{toid},#{toname},#{fromlng},#{fromlat},#{tolng},#{tolat},#{vehicledimension},#{cargotype},#{ownercompany},#{operator})
+		#{registerProvinceName},#{fromid},#{fromname},#{toid},#{toname},#{fromlng},#{fromlat},#{tolng},#{tolat},#{vehicledimension},#{cargotype},#{ownercompany},#{operator},#{isinternal})
 	</insert>
 	<select id="get" resultMap="TruckRs" parameterType="Integer">
 		select

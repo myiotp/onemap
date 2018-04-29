@@ -71,6 +71,18 @@
                 </div><div class="new_plus"><span id="passwordTip"></span></div>
             </div>
         </c:when>
+        <c:when test="${currentObj.actiontype == '300' }">
+            <div class="new_item">
+                <div class="tit"><em>*</em>是否内部员工：</div>
+                <div class="bdmain">
+                     <select name="isinternal" id="isinternal">
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                      </select>
+                 
+                </div><div class="new_plus"><span id="passwordTip"></span></div>
+            </div>
+        </c:when>
     </c:choose>
     
      

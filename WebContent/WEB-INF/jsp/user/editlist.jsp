@@ -96,12 +96,13 @@ $(function(){
                                                 <td data-title="'微信昵称'" filter="{ 'wx_nickName': 'text' }" sortable="'wx_nickName'">
                                                     {{obj.wx_nickName}}
                                                 </td>
-                                                
+                                                <!-- 
                                                 <td data-title="'联系方式'" filter="{ 'mobilephone': 'text' }" sortable="'mobilephone'">
                                                     {{obj.mobilephone}}
-                                                </td>
-                                                <td data-title="'省份'" filter="{ 'province': 'text' }" sortable="'province'">
-                                                    {{obj.province}}
+                                                </td> -->
+                                                <td data-title="'内部员工?'"  sortable="'isinternal'">
+                                                    <div ng-if="obj.isinternal == 0">否</div>   
+                                                  <div ng-if="obj.isinternal == 1">是</div> 
                                                 </td>
 							                    <td data-title="'角色'"  sortable="'approverole'">
 							                     <div ng-if="obj.approverole == 0">操作员</div>   
@@ -116,6 +117,7 @@ $(function(){
 							                    <td data-title="'***操作***     '" >
 							                        <a title="修改角色" class="modifyglobal icoglobal" href="./edit?id={{obj.id }}&actiontype=100"></a> 
 													<a title="修改密码" class="modifyglobal icoglobal" href="./edit?id={{obj.id }}&actiontype=200"></a>
+													<a title="内部员工?" class="modifyglobal icoglobal" href="./edit?id={{obj.id }}&actiontype=300"></a>
 											    </td>
 							                    </shiro:hasAnyRoles>
 							                </tr>

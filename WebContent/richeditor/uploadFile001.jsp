@@ -8,11 +8,13 @@
 <%
 
 //文件保存目录路径
-String savePath = pageContext.getServletContext().getRealPath("/") + "../../../../onemap/attached/";
+//String savePath = pageContext.getServletContext().getRealPath("/") + "../../../../onemap/attached/";
+
+String savePath ="/root/mynginxfiles/staticfiles/images/onemap/attached/";
 System.out.println("uploadPath:" + savePath);
 //文件保存目录URL
-String saveUrl  = request.getContextPath() + "/attached/";
-
+//String saveUrl  = request.getContextPath() + "/attached/";
+String saveUrl  = "https://www.tongdagufen.cn/images/onemap/attached/";
 //定义允许上传的文件扩展名
 HashMap<String, String> extMap = new HashMap<String, String>();
 extMap.put("image", "gif,jpg,jpeg,png,bmp");

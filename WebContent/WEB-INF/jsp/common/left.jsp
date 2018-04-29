@@ -33,22 +33,13 @@ String approverole =(obj==null)?"0":obj.toString();
 				 -->
 				<li class="wzymgl" id=""><a href="../landtype/editlist"><em></em>车辆类型管理</a></li>
 				<li class="wzymgl" id=""><a href="../croptype/editlist"><em></em>货箱长度种类管理</a></li>
-	
+	            <shiro:hasAnyRoles name="admin">  
+                    <li class="wzymgl" id=""><a href="../user/editlist"><em></em>用户管理</a></li>  
+                </shiro:hasAnyRoles>
+                <li class="wzymgl" id=""><a href="../publication/editlist"><em></em>新闻资讯管理</a></li>
+                        
 				</ul>
 				
-				
-				
-				
-				
-				<ul class="column">
-				<li class="group open" id=""><a href="javascript:void(0);"><em></em>其他管理</a></li>
-				
-				<shiro:hasAnyRoles name="admin">  
-					<li class="wzymgl" id=""><a href="../user/editlist"><em></em>用户管理</a></li>	
-				</shiro:hasAnyRoles>
-				<!--<li class="wzymgl" id=""><a href="../publication/editlist"><em></em>行业报告管理</a></li>
-				 -->		
-				</ul>
 			</c:when>
 			
 			<c:when test="${param.memuid==2}">	
@@ -98,8 +89,7 @@ String approverole =(obj==null)?"0":obj.toString();
 									
 			</c:when>
 			<c:when test="${param.memuid==8}">
-				<li class="wzymgl" id=""><a href="../siteinfo/list"><em></em>合作社信息</a></li>
-				<li class="wzymgl" id=""><a href="#"><em></em>信息服务</a></li>				
+							
 			</c:when>
 			<c:when test="${param.memuid==9}">
 								
