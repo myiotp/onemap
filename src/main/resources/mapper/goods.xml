@@ -81,6 +81,9 @@
         <if test="orderBy != null and order != null">
             order by ${orderBy} ${order}
         </if>
+        <if test="orderBy == null or order == null">
+            order by id desc
+        </if>
          limit #{startPos} ,#{pageSize}
     </select>
 	<select id="query" resultMap="goodsRs">

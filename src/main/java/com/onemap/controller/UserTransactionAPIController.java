@@ -156,9 +156,11 @@ public class UserTransactionAPIController extends BaseController<ManagementRecor
 			@PathVariable("cargoId") Integer cargoId) throws Exception {
 		APIResponseBaseObject result = new APIResponseBaseObject();
 		ManagementRecord t = new ManagementRecord();
-		t.setOperator(username);
+		
 		t.setCargoId(cargoId);
-
+		t.setType(1);
+		t.setVar1(username);
+		
 		List<ManagementRecord> list = service.list(t);
 		List<Truck> data = new ArrayList<>();
 		if (list != null) {
@@ -218,9 +220,11 @@ public class UserTransactionAPIController extends BaseController<ManagementRecor
 			@PathVariable("truckId") Integer truckId) throws Exception {
 		APIResponseBaseObject result = new APIResponseBaseObject();
 		ManagementRecord t = new ManagementRecord();
-		t.setOperator(username);
+		
 		t.setTruckId(truckId);
-
+		t.setType(2);
+		t.setVar1(username);
+		
 		List<ManagementRecord> list = service.list(t);
 		List<Goods> data = new ArrayList<>();
 		if (list != null) {

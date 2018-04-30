@@ -262,8 +262,7 @@ approvelevel=<%=approvelevel%>
           <div id="aitem5"></div>
           <div id="aitem6"></div>
           <div id="aitem7"></div>
-          <div id="aitem8"></div>
-          <div id="aitem9"></div>
+          
           <div id="aitem10"></div>
           <div id="aitem11"></div>
           <div id="aitem12"></div>

@@ -11,12 +11,12 @@ public enum WebClientEnum {
         if(socketClient != null) {  
             socketClient.connect();  
             Thread.sleep(10000);
-            socketClient.send("测试websocket。。。");  
+            socketClient.send("Test websocket");  
         }  
         boolean flag = true;  
         int i=1000;  
         while(flag) {  
-            socketClient.send("测试websocket。。。"+(i--));  
+            socketClient.send("Test websocket"+(i--));  
             try {  
                 Thread.sleep(1000);  
             } catch (InterruptedException e) {  

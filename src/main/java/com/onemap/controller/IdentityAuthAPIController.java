@@ -59,6 +59,12 @@ public class IdentityAuthAPIController extends BaseController<IdentityAuth, Inte
 				IdentityAuth identityAuth = auths.get(0);
 				identityAuth.setUsertype(usertype);
 				result.setData(identityAuth);
+			} else {
+				User byUsername = userservice.getByUsername(username);
+				int usertype = byUsername.getUsertype();
+				IdentityAuth identityAuth = new IdentityAuth();
+				identityAuth.setUsertype(usertype);
+				result.setData(identityAuth);
 			}
 			result.setInfo("OK");
 			result.setStatus(1);

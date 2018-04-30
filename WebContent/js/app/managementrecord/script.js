@@ -70,8 +70,8 @@ var app = angular.module('main', [ 'ngTable', 'ngResource' ]).controller(
 									$('#aitem5').html("装货时间："+responsedata.shipTimestamp);
 									$('#aitem6').html("出发地："+responsedata.fromname);
 									$('#aitem7').html("目的地："+responsedata.toname);
-									$('#aitem8').html("出发地(详细)："+responsedata.fromname + responsedata.fromAddress);
-									$('#aitem9').html("目的地(详细)："+responsedata.toname + responsedata.toAddress);
+									//$('#aitem8').html("出发地(详细)："+responsedata.fromname + responsedata.fromAddress);
+									//$('#aitem9').html("目的地(详细)："+responsedata.toname + responsedata.toAddress);
 									$('#aitem10').html("运价："+responsedata.price);
 									$('#aitem11').html("付款方式："+responsedata.payment);
 									$('#aitem12').html("运输时效："+responsedata.validDays);

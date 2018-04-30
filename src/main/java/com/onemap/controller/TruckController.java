@@ -355,6 +355,8 @@ public class TruckController extends BaseController<Truck, Integer> {
 			for (Truck truck : tList) {
 				ManagementRecord record = new ManagementRecord();
 				record.setTruckId(truck.getId());
+				record.setVar1(username);
+				record.setType(2);
 				int count = mgtrecordService.count(record);
 				truck.setTxId(count);
 			}

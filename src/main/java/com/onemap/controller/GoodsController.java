@@ -268,6 +268,8 @@ public class GoodsController extends BaseController<Goods, Integer> {
 			for (Goods item : tList) {
 				ManagementRecord record = new ManagementRecord();
 				record.setCargoId(item.getId());
+				record.setVar1(username);
+				record.setType(1);
 				int count = mgtrecordService.count(record);
 				item.setTxId(count);
 			}
