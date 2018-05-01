@@ -27,12 +27,13 @@ String approverole =(obj==null)?"0":obj.toString();
 				<li class="wzymgl" id=""><a href="../site/editlist"><em></em>合作社信息</a></li>			
 				<li class="wzymgl" id=""><a href="../landblock/editlist"><em></em>地块管理</a></li>
 				<li class="wzymgl" id=""><a href="../farmmachinery/editlist"><em></em>农机管理</a></li>
-				            <li class="wzymgl" id=""><a href="../seedtype/editlist"><em></em>农作物品种管理</a></li>
+				            
                 <li class="wzymgl" id=""><a href="../fertilizertype/editlist"><em></em>肥料类型管理</a></li>
                 <li class="wzymgl" id=""><a href="../pesticidetype/editlist"><em></em>农药类型管理</a></li>   
 				 -->
 				<li class="wzymgl" id=""><a href="../landtype/editlist"><em></em>车辆类型管理</a></li>
 				<li class="wzymgl" id=""><a href="../croptype/editlist"><em></em>货箱长度种类管理</a></li>
+				<li class="wzymgl" id=""><a href="../seedtype/editlist"><em></em>付款方式管理</a></li>
 	            <shiro:hasAnyRoles name="admin">  
                     <li class="wzymgl" id=""><a href="../user/editlist"><em></em>用户管理</a></li>  
                 </shiro:hasAnyRoles>

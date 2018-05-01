@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>种子类型管理</title>
+<title>付款方式管理</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
@@ -50,7 +50,7 @@ $(function(){
 		<!-- 列表内容 begin -->
 		<div class="container">
 			<div class="connav">
-				» <a href="./editlist">种子类型管理</a> &gt; 种子类型列表
+				» <a href="./editlist">付款方式管理</a> &gt; 付款方式列表
 			</div>
 			<!--  主体   start -->
 			<div class="topselect">
@@ -84,10 +84,10 @@ $(function(){
 							        <div loading-container="tableParams.settings().$loading">
 							            <table ng-table="tableParams" template-pagination="custom/pager" show-filter="true" class="table" style="border-collapse: collapse">
 							                <tr ng-repeat="obj in $data" onmouseout="Kkdown(this);" onmouseover="Kkover(this);">
-							                	<td data-title="'种子类型'" filter="{ 'seedType': 'text' }"  sortable="'seedType'">
+							                	<td data-title="'付款方式'" filter="{ 'seedType': 'text' }"  sortable="'seedType'">
 							                        {{obj.seedType}}
 							                    </td>
-							                    <td data-title="'灾害分析及防治'" filter="{ 'description': 'text' }" sortable="'description'">
+							                    <td data-title="'说明'" filter="{ 'description': 'text' }" >
 							                        {{obj.description}}
 							                    </td>
 							                  

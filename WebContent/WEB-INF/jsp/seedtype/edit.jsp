@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>种子类型管理</title>
+<title>付款方式管理</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <link href="../css/global.css" rel="stylesheet" type="text/css" />
@@ -29,16 +29,16 @@
 <!-- 列表内容 begin -->
 	<div class="container">
 		    	<div class="connav">
-			       		» <a href="./editist">种子类型管理</a> &gt; 新建种子类型    	</div>
+			       		» <a href="./editist">付款方式管理</a> &gt; 新建付款方式    	</div>
 		    	<!--  主体   start -->
 		    	
 <form name="form1" id="form1" action="./save" method="post">
 <input type="hidden" name="id" value="${currentObj.id }"/>
 <div class="userinfolist">
 <h3 class="navbig"><span class="navleft"><em class="ico"></em><c:choose><c:when test="${currentObj ==null }">添加</c:when>
-<c:otherwise>修改</c:otherwise></c:choose>种子类型信息</span></h3>
+<c:otherwise>修改</c:otherwise></c:choose>付款方式信息</span></h3>
      <div class="new_item">
-		<div class="tit"><em>*</em>种子类型：</div>
+		<div class="tit"><em>*</em>付款方式：</div>
 		<div class="bdmain">
 		
 			<label onmouseout="this.className='input_out'" onmousemove="this.className='input_move'" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onfocus="this.className='input_on';this.onmouseout=''" class="input_out">
@@ -48,7 +48,7 @@
 		</div><div class="new_plus"><span id="seedTypeTip"></span></div>
     </div>
      <div class="new_item">
-		<div class="tit"><em></em>灾害分析及防治：</div>
+		<div class="tit"><em></em>说明：</div>
 		<div class="bdmain">
 			<textarea id="description" rows="8" cols="50" name="description">${currentObj.description }	
 			</textarea>
