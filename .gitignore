@@ -23,7 +23,7 @@
 .settings/
 target/
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# virtual machine crash logs, see 
 hs_err_pid*
-src/main/resources/env/pro.properties
-src/main/resources/spring/applicationContext-dao.xml
+pro.properties
+
