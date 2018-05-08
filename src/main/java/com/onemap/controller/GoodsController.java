@@ -169,6 +169,7 @@ public class GoodsController extends BaseController<Goods, Integer> {
 			@RequestParam(value="toid",required=false) String toid,
 			@RequestParam(value="carType",required=false) String carType,
 			@RequestParam(value="carLength",required=false) String carLength,
+			@RequestParam(value="status",required=false) String status,
 			@RequestParam(value="page",required=false) Integer page,
 			@RequestParam(value="pageSize",required=false) Integer pageSize) throws Exception {
 		System.out.println("page:" + page + ",pageSize:" + pageSize);
@@ -196,7 +197,19 @@ public class GoodsController extends BaseController<Goods, Integer> {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
+		t.setStatus(-1);
+		if(!StringUtils.isEmpty(status)) {
+			try {
+				int _status = Integer.parseInt(status);
+				if(_status >= 0 ) {
+					t.setStatus(_status);
+				} else {
+					t.setStatus(-1);
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		APIResponseBaseObject result = new APIResponseBaseObject();
 		List<Goods> tList = this.service.query(t);
 		System.out.println(tList);

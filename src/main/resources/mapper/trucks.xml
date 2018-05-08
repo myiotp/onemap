@@ -107,7 +107,12 @@ vehicledimension,cargotype,ownercompany,operator,isinternal
             <if test="toid != null">
                 and toid  like CONCAT(#{toid}, '%')
             </if>
-           
+           	<if test="status >=0 and 1>=status">
+                and (status>=0 and 1>=status)
+            </if>
+            <if test="status >1">
+                and status = #{status}
+            </if>
         </trim>
          order by id desc limit #{startPos} ,#{pageSize}
     </select>

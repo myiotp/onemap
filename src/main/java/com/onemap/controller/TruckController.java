@@ -2,6 +2,7 @@ package com.onemap.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.onemap.domain.APIResponseBaseObject;
+import com.onemap.domain.Clause;
 import com.onemap.domain.Goods;
 import com.onemap.domain.IdentityAuth;
 import com.onemap.domain.ManagementRecord;
@@ -197,6 +199,35 @@ public class TruckController extends BaseController<Truck, Integer> {
 	@ResponseBody
 	public APIResponseBaseObject listJson(Truck t, @RequestParam(value="username",required=false) String username) throws Exception {
 		APIResponseBaseObject result = new APIResponseBaseObject();
+		if(t.getStatus() == -1) {
+			//nothing to do
+		} else {
+			List<Clause> whereClause = new ArrayList<>();
+			if(t.getStatus() == 0) {
+				//status: 0 or 1
+				Clause clause = new Clause();
+				clause.setColumn("status");
+				clause.setOperator(">=");
+				clause.setValue(0);
+				whereClause.add(clause);
+				
+				Clause clause2 = new Clause();
+				clause2.setColumn("status");
+				clause2.setOperator("<=");
+				clause2.setValue(1);
+				whereClause.add(clause2);
+				
+			} else {
+				//status: 11(对方确认交易) or 99(作废)
+				Clause clause = new Clause();
+				clause.setColumn("status");
+				clause.setOperator("=");
+				clause.setValue(t.getStatus());
+				whereClause.add(clause);
+			}
+			
+			t.setWhereClause(whereClause);
+		}
 		List<Truck> tList = getBaseService().listByLimit(t);
 //		System.out.println(tList);
 		for (Truck goods : tList) {
@@ -224,6 +255,7 @@ public class TruckController extends BaseController<Truck, Integer> {
 			@RequestParam(value="toid",required=false) String toid,
 			@RequestParam(value="carType",required=false) String carType,
 			@RequestParam(value="carLength",required=false) String carLength,
+			@RequestParam(value="status",required=false) String status,
 			@RequestParam(value="page",required=false) Integer page,
 			@RequestParam(value="pageSize",required=false) Integer pageSize) throws Exception {
 		System.out.println("page:" + page + ",pageSize:" + pageSize);
@@ -251,7 +283,19 @@ public class TruckController extends BaseController<Truck, Integer> {
 //		} catch (Exception e) {
 //			System.out.println(e.getMessage());
 //		}
-		
+		t.setStatus(-1);
+		if(!StringUtils.isEmpty(status)) {
+			try {
+				int _status = Integer.parseInt(status);
+				if(_status >= 0 ) {
+					t.setStatus(_status);
+				} else {
+					t.setStatus(-1);
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		APIResponseBaseObject result = new APIResponseBaseObject();
 		List<Truck> tList = this.truckService.query(t);
 		System.out.println(tList);

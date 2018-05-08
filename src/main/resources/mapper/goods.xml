@@ -108,6 +108,12 @@
             <if test="carLength != null">
                 and car_length >= #{carLength}
             </if>
+            <if test="status >=0 and 1>=status">
+                and (status>=0 and 1>=status)
+            </if>
+            <if test="status >1">
+                and status = #{status}
+            </if>
         </trim>
          order by id desc limit #{startPos},#{pageSize}
     </select>
