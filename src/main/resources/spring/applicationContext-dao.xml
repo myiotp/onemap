@@ -29,14 +29,14 @@
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<property name="driverClass">
-			<value>com.mysql.jdbc.Driver</value>
+			<value>${datasource.driver}</value>
 		</property>
 		<!-- ${datasource.url} -->
 		<property name="jdbcUrl">
-			<value>jdbc:mysql://127.0.0.1:3306/onemap?useUnicode=true&amp;characterEncoding=UTF-8</value>
+			<value>${datasource.url}</value>
 		</property>
 		<property name="user">
-			<value>root</value>
+			<value>${datasource.username}</value>
 		</property>
 		<!-- ${datasource.password} -->
 		<property name="password">

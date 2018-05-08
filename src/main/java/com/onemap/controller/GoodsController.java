@@ -2,6 +2,7 @@ package com.onemap.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.onemap.domain.APIResponseBaseObject;
+import com.onemap.domain.Clause;
 import com.onemap.domain.Goods;
 import com.onemap.domain.IdentityAuth;
 import com.onemap.domain.ManagementRecord;
@@ -108,6 +110,37 @@ public class GoodsController extends BaseController<Goods, Integer> {
 	public APIResponseBaseObject listJson(Goods t, @RequestParam(value="username",required=false) String username) throws Exception {
 		APIResponseBaseObject result = new APIResponseBaseObject();
 		t.setUsername(null);
+		//System.out.println("goods:" + t.toString());
+		if(t.getStatus() == -1) {
+			//nothing to do
+		} else {
+			List<Clause> whereClause = new ArrayList<>();
+			if(t.getStatus() == 0) {
+				//status: 0 or 1
+				Clause clause = new Clause();
+				clause.setColumn("status");
+				clause.setOperator(">=");
+				clause.setValue(0);
+				whereClause.add(clause);
+				
+				Clause clause2 = new Clause();
+				clause2.setColumn("status");
+				clause2.setOperator("<=");
+				clause2.setValue(1);
+				whereClause.add(clause2);
+				
+			} else {
+				//status: 11(对方确认交易) or 99(作废)
+				Clause clause = new Clause();
+				clause.setColumn("status");
+				clause.setOperator("=");
+				clause.setValue(t.getStatus());
+				whereClause.add(clause);
+			}
+			
+			t.setWhereClause(whereClause);
+		}
+		
 		List<Goods> tList = getBaseService().listByLimit(t);
 //		System.out.println(tList);
 		for (Goods goods : tList) {
