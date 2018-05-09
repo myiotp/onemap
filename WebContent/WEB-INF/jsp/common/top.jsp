@@ -25,7 +25,7 @@ Object obj = request.getSession().getAttribute("approverole");
 String approverole =(obj==null)?"0":obj.toString();
 if(isAdmin){
 %>
-			<li><a href="../topmemu/list?memuid=2">交易信息</a></li>
+			<li><a href="../topmemu/list?memuid=2">区块链交易</a></li>
 			<li><a href="../topmemu/list?memuid=4">车辆年检</a></li>
 			<li><a href="../topmemu/list?memuid=5">车辆保险</a></li>
 			<li><a href="../topmemu/list?memuid=6">审核管理</a></li>

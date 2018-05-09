@@ -51,7 +51,7 @@ boolean isAdmin = checkRoleObj!=null && Boolean.parseBoolean(checkRoleObj.toStri
 		<!-- 列表内容 begin -->
 		<div class="container">
 			<div class="connav">
-				» <a href="./editlist">交易记录</a> &gt; 交易记录列表
+				» <a href="./editlist">区块链交易记录</a> &gt;利用唯一ID和区块链技术，使用车源与货源唯一ID、交易发起时间戳及交易确认时间戳计算唯一哈希Hash值，双方确认后生成电子交易协议并写入区块链平台。
 			</div>
 			<!--  主体   start -->
 			

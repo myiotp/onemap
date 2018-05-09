@@ -45,17 +45,17 @@ String approverole =(obj==null)?"0":obj.toString();
 			
 			<c:when test="${param.memuid==2}">	
 			 <%if(approverole.equals("0")) {%>
-                 <li class="wzymgl" id=""><a href="../managementrecord/editlist?approvelevel=0"><em></em>待审批交易列表</a></li>
+                 <li class="wzymgl" id=""><a href="../managementrecord/editlist?approvelevel=0"><em></em>待审批区块链交易列表</a></li>
              <%}%>	
 			 <%if(approverole.equals("1")) {%>
-			     <li class="wzymgl" id=""><a href="../managementrecord/editlist?approvelevel=4"><em></em>副经理审批交易列表</a></li>
+			     <li class="wzymgl" id=""><a href="../managementrecord/editlist?approvelevel=4"><em></em>副经理审批区块链交易列表</a></li>
 			 <%}%>	
 			 <%if(approverole.equals("2")) {%>
-                 <li class="wzymgl" id=""><a href="../managementrecord/editlist?approvelevel=5"><em></em>经理审批交易列表</a></li> 
+                 <li class="wzymgl" id=""><a href="../managementrecord/editlist?approvelevel=5"><em></em>经理审批区块链交易列表</a></li> 
              <%}%>
 			 
-			 <li class="wzymgl" id=""><a href="../managementrecord/allconfirmed?approvelevel=-1"><em></em>已确认交易列表</a></li>   	
-			 <li class="wzymgl" id=""><a href="../managementrecord/alleditlist"><em></em>全部交易列表</a></li> 
+			 <li class="wzymgl" id=""><a href="../managementrecord/allconfirmed?approvelevel=-1"><em></em>已确认区块链交易列表</a></li>   	
+			 <li class="wzymgl" id=""><a href="../managementrecord/alleditlist"><em></em>全部区块链交易列表</a></li> 
 			</c:when>
 			
 			<c:when test="${param.memuid==3}">
